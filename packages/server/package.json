@@ -1,0 +1,70 @@
+{
+  "name": "@arviva/server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node-dev src/app.ts",
+    "build": "rm -Rf dist && tsc -p .",
+    "postbuild": "cp -r migrations dist && cp package.dist.json dist/package.json",
+    "migration:create": "migrate-mongo create new-migration",
+    "migration:up": "dotenv-run-script .env .env.local -- migration:_up",
+    "migration:_up": "migrate-mongo up",
+    "migration:status": "dotenv-run-script .env .env.local -- migration:_status",
+    "migration:_status": "migrate-mongo status"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "workspaces": {
+    "nohoist": [
+      "**"
+    ]
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.0",
+    "@types/bull": "^4.10.0",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.12",
+    "@types/dotenv-flow": "^3.2.0",
+    "@types/excel-column-name": "^1.0.0",
+    "@types/express": "^4.17.13",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/maildev": "^0.0.7",
+    "@types/multer": "^1.4.7",
+    "@types/node": "^18.0.0",
+    "@types/nodemailer": "^6.4.7",
+    "dotenv-run-script": "^0.2.0",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@arviva/core": "*",
+    "@bull-board/api": "^6.2.4",
+    "@bull-board/express": "^6.2.4",
+    "@sentry/node": "^7.18.0",
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.20.3",
+    "bull": "^4.12.2",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
+    "dotenv-flow": "^3.2.0",
+    "excel-column-name": "^1.0.1",
+    "express": "^4.18.1",
+    "express-async-errors": "^3.1.1",
+    "express-query-boolean": "^2.0.0",
+    "http-proxy-middleware": "^2.0.6",
+    "hyperformula": "^2.7.1",
+    "jsonwebtoken": "^8.5.1",
+    "maildev": "^2.1.0",
+    "migrate-mongo": "^9.0.0",
+    "mongoose": "^6.4.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.8.0",
+    "puppeteer": "^22.6.0",
+    "scmp": "^2.1.0",
+    "string-replace-middleware": "^1.1.0",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
+  }
+}

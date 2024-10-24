@@ -1,0 +1,31 @@
+{
+  "name": "@arviva/workspace",
+  "workspaces": [
+    "packages/*"
+  ],
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "scripts": {
+    "start": "lerna run start --stream --parallel",
+    "stop": "lerna run stop",
+    "build": "lerna run build",
+    "migration:create": "lerna run migration:create",
+    "migration:up": "lerna run migration:up",
+    "clean": "find . -name 'node_modules' -type d -prune -print -exec rm -rf {} \\;",
+    "deploy:staging": "./deployment/staging/deploy.sh",
+    "deploy:production": "./deployment/production/deploy.sh",
+    "lint": "prettier packages/**/*.{ts,tsx} --write",
+    "build-image": "docker build --no-cache --tag registry.bleumatin.fr/arviva/seeds:latest .",
+    "push-image": "docker push registry.bleumatin.fr/arviva/seeds:latest",
+    "graph": "nx graph"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lerna": "^5.1.6",
+    "prettier": "^2.8.1",
+    "prettier-plugin-organize-imports": "^3.2.1",
+    "typescript": "^4.9.4"
+  }
+}

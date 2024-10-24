@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig",
+  "compilerOptions": {
+    "lib": ["es2021", "dom"],
+    "declaration": true,
+    "declarationMap": true,
+    "baseUrl": ".",
+    "noEmit": false,
+    "outDir": "dist",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
+  },
+  "exclude": ["dist", "migrations"]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "documentserver",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "dotenv-run-script .env .env.local -- start:documentserver",
+    "stop": "dotenv-run-script .env .env.local -- stop:documentserver",
+    "start:documentserver": "if-env DOCUMENTSERVER_ON_DOCKER=true && docker-compose down && docker-compose up --build --force-recreate --renew-anon-volumes || true",
+    "stop:documentserver": "if-env DOCUMENTSERVER_ON_DOCKER=true && docker-compose down || true"
+  },
+  "dependencies": {
+    "@delucis/if-env": "^1.1.2",
+    "dotenv-run-script": "^0.2.0"
+  }
+}

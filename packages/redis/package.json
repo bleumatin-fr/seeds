@@ -1,0 +1,15 @@
+{
+  "name": "redis",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "dotenv-run-script .env .env.local -- start:redis",
+    "stop": "dotenv-run-script .env .env.local -- stop:redis",
+    "start:redis": "if-env REDIS_ON_DOCKER=true && docker-compose down && docker-compose up --build --force-recreate --renew-anon-volumes || true",
+    "stop:redis": "if-env REDIS_ON_DOCKER=true && docker-compose down || true"
+  },
+  "dependencies": {
+    "@delucis/if-env": "^1.1.2",
+    "dotenv-run-script": "^0.2.0"
+  }
+}

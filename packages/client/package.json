@@ -1,0 +1,76 @@
+{
+  "name": "@arviva/client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@arviva/core": "*",
+    "@date-io/date-fns": "^2.16.0",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/lab": "^5.0.0-alpha.101",
+    "@mui/material": "^5.8.7",
+    "@nivo/core": "^0.80.0",
+    "@nivo/treemap": "^0.80.0",
+    "@reactour/tour": "^3.1.8",
+    "@sentry/react": "^7.18.0",
+    "@sentry/tracing": "^7.18.0",
+    "date-fns": "^2.0.0",
+    "formik": "^2.2.9",
+    "history": "^5.3.0",
+    "lodash": "^4.17.21",
+    "notistack": "^2.0.8",
+    "react": "^18.2.0",
+    "react-archer": "^4.0.1",
+    "react-circular-progressbar": "^2.1.0",
+    "react-cookie-consent": "^8.0.1",
+    "react-dom": "^18.2.0",
+    "react-error-boundary": "^3.1.4",
+    "react-helmet": "^6.1.0",
+    "react-markdown": "^8.0.3",
+    "react-query": "^3.39.1",
+    "react-router": "^6.27.0",
+    "react-router-dom": "6.3.0",
+    "react-scripts": "5.0.1",
+    "recharts": "^2.1.14",
+    "remark-gemoji": "^8.0.0",
+    "remark-gfm": "^4.0.0",
+    "typescript": "^4.7.4",
+    "usehooks-ts": "3.0.2",
+    "uuid": "^8.3.2",
+    "yup": "^0.32.11"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "sh -ac '. ./.env.${NODE_ENV:-development}; react-scripts build'",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.182",
+    "@types/mongoose": "^5.11.97",
+    "@types/react": "^18.0.14",
+    "@types/react-dom": "^18.0.5",
+    "@types/react-helmet": "^6.1.5",
+    "@types/recharts": "^1.8.23",
+    "@types/uuid": "^8.3.4"
+  }
+}

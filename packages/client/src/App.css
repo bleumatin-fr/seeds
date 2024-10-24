@@ -1,0 +1,145 @@
+@import './styles/reset.css';
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+input {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+:root {
+  --fullBackgroundColor: white;
+  --backgroundColor: #ebebeb;
+  --yellow: #fed169;
+  --green: #028d96;
+  --lightgreen: #73b5bc;
+
+  --grey: #b5b5b5;
+  --brown: #a55e47;
+  --pink: #ffa9c4;
+  --red: #ff5b17;
+  --orange: #ff9229;
+  --purple: #8746ae;
+  --lightpurple: #cea8ff;
+  --blue: #0b67a9;
+  --lightblue: #afd4ff;
+  --brightgreen: #0f9324;
+  --brightergreen: #0f932570;
+  --brightlightgreen: #81efc8;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+#root {
+  background-color: var(--backgroundColor);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+body {
+  background-color: var(--backgroundColor);
+  color: #060606;
+  align-items: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.home {
+  background: #0f8d96;
+}
+
+.home #root {
+  background: none;
+}
+
+.h1b {
+  font-weight: bold;
+  font-size: 39px;
+}
+.h1r {
+  font-weight: normal;
+  font-size: 39px;
+}
+.h2b {
+  font-weight: bold;
+  font-size: 30px;
+}
+.h2r {
+  font-weight: normal;
+  font-size: 30px;
+}
+.h3r {
+  font-weight: normal;
+  font-size: 25px;
+}
+
+.h3b {
+  font-weight: bold;
+  font-size: 25px;
+}
+.h4r {
+  font-weight: normal;
+  font-size: 20px;
+}
+.h4b {
+  font-weight: bold;
+  font-size: 20px;
+}
+.h5r {
+  font-weight: normal;
+  font-size: 18px;
+}
+.h5b {
+  font-weight: bold;
+  font-size: 18px;
+}
+.h6r {
+  font-weight: normal;
+  font-size: 16px;
+}
+.h6b {
+  font-weight: 600;
+  font-size: 16px;
+}
+.hxb {
+  font-weight: 600;
+  font-size: 16px;
+}
+.hxc {
+  font-weight: 500;
+  font-size: 16px;
+}
+.hxr {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+}
+.hzb {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+}
+.hzr {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+}
+.underline {
+  text-decoration: underline;
+}
+
+.SnackbarContainer-top {
+  top: 64px !important;
+  z-index: 12000 !important;
+}

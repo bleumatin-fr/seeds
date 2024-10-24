@@ -1,0 +1,29 @@
+name: publish
+
+on:  
+  push:
+    branches:
+      - main
+
+jobs:
+  publish-image:
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v2
+
+      - name: Logging in to Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: registry.bleumatin.fr
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Building
+        run: docker build --no-cache --tag registry.bleumatin.fr/arviva/seeds:latest --tag registry.bleumatin.fr/arviva/seeds:${GITHUB_SHA} .
+
+      - name: Deploying
+        run: docker push --all-tags registry.bleumatin.fr/arviva/seeds
+
+      - name: Restarting
+        run: curl -X POST ${{ secrets.RESTART_WEBHOOK }}

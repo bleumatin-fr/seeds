@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+}
+
+.react-json-view {
+  background: rgba(0, 0, 0, 0.04) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+  padding: 16px;
+  width: 100%;
+  min-width: 450px;
+}

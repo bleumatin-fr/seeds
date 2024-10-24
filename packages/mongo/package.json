@@ -1,0 +1,15 @@
+{
+  "name": "mongo",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn run stop && docker run --name mongodb --volume data:/data/db --detach -p 27017:27017 mongo || true",
+    "stop": "(docker stop mongodb && docker rm mongodb) || true",
+    "start:mongo": "if-env MONGO_ON_DOCKER=true && yarn run stop:mongo && docker run --name mongodb --volume data:/data/db --detach -p 27017:27017 mongo  || true",
+    "stop:mongo": "if-env MONGO_ON_DOCKER=true && (docker stop mongodb || true && docker rm mongodb || true) || true"
+  },
+  "dependencies": {
+    "@delucis/if-env": "^1.1.2",
+    "dotenv-run-script": "^0.2.0"
+  }
+}
