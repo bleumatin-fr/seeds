@@ -1,4 +1,4 @@
-name: publish
+name: Staging deployment
 
 on:  
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  publish-image:
+  deployment:
     runs-on: ubuntu-latest
     steps:
 
@@ -15,15 +15,20 @@ jobs:
       - name: Logging in to Container Registry
         uses: docker/login-action@v1
         with:
-          registry: registry.bleumatin.fr
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          registry: ${{ secrets.PRIVATE_REGISTRY_URL }}
+          username: ${{ secrets.PRIVATE_REGISTRY_USERNAME }}
+          password: ${{ secrets.PRIVATE_REGISTRY_PASSWORD }}
 
       - name: Building
-        run: docker build --no-cache --tag registry.bleumatin.fr/arviva/seeds:latest --tag registry.bleumatin.fr/arviva/seeds:${GITHUB_SHA} .
+        run: docker build --no-cache --tag ${{ secrets.PRIVATE_REGISTRY_URL }}/arviva/seeds:latest --tag ${{ secrets.PRIVATE_REGISTRY_URL }}/arviva/seeds:${GITHUB_SHA} .
 
       - name: Deploying
-        run: docker push --all-tags registry.bleumatin.fr/arviva/seeds
+        run: docker push --all-tags ${{ secrets.PRIVATE_REGISTRY_URL }}/arviva/seeds
 
       - name: Restarting
-        run: curl -X POST ${{ secrets.RESTART_WEBHOOK }}
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.STAGING_SERVER_HOST }}
+          username: ${{ secrets.STAGING_SERVER_USERNAME }}
+          key: ${{ secrets.STAGING_SERVER_KEY }}
+          script: sudo bash -c "cd /home/debian/portainer/data/compose/6/ && docker compose -p arviva-seeds down && docker compose -p arviva-seeds pull && docker compose -p arviva-seeds up -d"
