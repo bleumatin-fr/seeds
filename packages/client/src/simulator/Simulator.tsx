@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import Nav from './Nav';
 
 import React, { useEffect, useState } from 'react';
-import { ReactComponent as BaseLoadingIllustration } from '../project/images/water-crops.svg';
+import BaseLoadingIllustration from '../project/images/water-crops.svg?react';
 import ResultsSimple from '../results/ResultsSimple';
 import Button from '../ui/Button';
 import { SectorComponent } from './SectorComponent';

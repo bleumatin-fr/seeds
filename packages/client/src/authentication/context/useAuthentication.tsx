@@ -46,7 +46,7 @@ AuthenticationContext.displayName = 'AuthenticationContext';
 
 const login = async (email: string, password: string) => {
   const request = new Request(
-    `${process.env.REACT_APP_API_URL}/authentication/login`,
+    `${import.meta.env.VITE_API_URL}/authentication/login`,
     {
       method: 'POST',
       credentials: 'include',
@@ -63,7 +63,7 @@ const login = async (email: string, password: string) => {
 
 const register = async (params: RegisterParams) => {
   const request = new Request(
-    `${process.env.REACT_APP_API_URL}/authentication/register`,
+    `${import.meta.env.VITE_API_URL}/authentication/register`,
     {
       method: 'POST',
       credentials: 'include',
@@ -80,7 +80,7 @@ const register = async (params: RegisterParams) => {
 
 const recover = async (email: String) => {
   const request = new Request(
-    `${process.env.REACT_APP_API_URL}/authentication/recover`,
+    `${import.meta.env.VITE_API_URL}/authentication/recover`,
     {
       method: 'POST',
       credentials: 'include',
@@ -97,7 +97,7 @@ const recover = async (email: String) => {
 
 const resetPassword = async (token: String, password: string) => {
   const request = new Request(
-    `${process.env.REACT_APP_API_URL}/authentication/reset-password`,
+    `${import.meta.env.VITE_API_URL}/authentication/reset-password`,
     {
       method: 'POST',
       credentials: 'include',
@@ -114,7 +114,7 @@ const resetPassword = async (token: String, password: string) => {
 
 const sendMessage = async (object: string, message: string, url: string) => {
   const request = new Request(
-    `${process.env.REACT_APP_API_URL}/authentication/send-message`,
+    `${import.meta.env.VITE_API_URL}/authentication/send-message`,
     {
       method: 'POST',
       credentials: 'include',

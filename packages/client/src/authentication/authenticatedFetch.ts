@@ -1,6 +1,6 @@
 const refreshToken = async () => {
   const request = new Request(
-    `${process.env.REACT_APP_API_URL}/authentication/refresh`,
+    `${import.meta.env.VITE_API_URL}/authentication/refresh`,
     {
       method: 'POST',
       credentials: 'include',

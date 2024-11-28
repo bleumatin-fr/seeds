@@ -120,7 +120,7 @@ app.use(
 
 app.use(
   '/',
-  injectConfig('FRONT_', 'REACT_APP_'),
+  injectConfig('FRONT_', 'VITE_'),
   express.static(
     process.env.CLIENT_PATH || path.join(__dirname, '../../client/build'),
     { index: 'index.html' },
@@ -128,7 +128,7 @@ app.use(
 );
 app.use(
   '/admin',
-  injectConfig('ADMIN_', 'REACT_APP_'),
+  injectConfig('ADMIN_', 'VITE_'),
   express.static(
     process.env.ADMIN_PATH || path.join(__dirname, '../../admin/build'),
     { index: 'index.html' },

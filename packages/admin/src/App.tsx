@@ -11,7 +11,7 @@ import spreadsheets from './spreadsheets';
 import users from './users';
 
 const dataProvider = jsonServerProvider(
-  process.env.REACT_APP_API_URL || 'http://localhost:3000/admin/api',
+  import.meta.env.VITE_API_URL || 'http://localhost:3000/admin/api',
   httpClient,
 );
 

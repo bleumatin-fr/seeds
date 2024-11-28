@@ -5,8 +5,8 @@ import {
   DialogContentText as BaseDialogContentText,
 } from '@mui/material';
 import Button from '../ui/Button';
-import { ReactComponent as CloseIcon } from '../ui/icons/close.svg';
-import { ReactComponent as BaseIllustration } from './images/fireworks.svg';
+import CloseIcon from '../ui/icons/close.svg?react';
+import BaseIllustration from './images/fireworks.svg?react';
 
 interface SuccessModalProps {
   open: boolean;

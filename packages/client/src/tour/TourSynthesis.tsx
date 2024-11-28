@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { MouseEvent, useState } from 'react';
 
 import Button from '../ui/Button';
-import { ReactComponent as CheckIcon } from '../ui/icons/check.svg';
+import CheckIcon from '../ui/icons/check.svg?react';
 import BaseLoadingButton from '../ui/LoadingButton';
 import { Step, Tour, Travel, TravelLoad } from './context/types';
 import useTour from './context/useTour';

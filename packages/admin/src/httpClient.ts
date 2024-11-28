@@ -1,7 +1,7 @@
 import { fetchUtils, HttpError } from 'react-admin';
 
 const AUTH_API_URL =
-  process.env.REACT_APP_AUTH_API_URL ||
+  import.meta.env.VITE_AUTH_API_URL ||
   'http://localhost:3000/api/authentication';
 
 const refreshToken = async () => {

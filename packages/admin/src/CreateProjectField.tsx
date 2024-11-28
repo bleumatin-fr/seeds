@@ -7,7 +7,7 @@ export const CreateProjectField = () => {
     <Button
       startIcon={<AddIcon />}
       color="primary"
-      href={`${process.env.REACT_APP_FRONT_URL}`}
+      href={`${import.meta.env.VITE_FRONT_URL}`}
       onClick={(e) => {
         e.stopPropagation();
       }}

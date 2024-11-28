@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { authenticatedFetch } from '../../authentication/authenticatedFetch';
 
 const getModels = async (type?: string): Promise<Model[]> => {
-  let url = `${process.env.REACT_APP_API_URL}/models`;
+  let url = `${import.meta.env.VITE_API_URL}/models`;
   if (type) {
     url += `?type=${encodeURIComponent(type)}`;
   }

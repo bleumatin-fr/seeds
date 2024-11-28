@@ -12,8 +12,8 @@ import { useQuery } from 'react-query';
 import { authenticatedFetch } from '../authentication/authenticatedFetch';
 import { useProject } from '../project/context/useProject';
 import { TitleBlock } from '../ui/Block';
-import { ReactComponent as ExportIcon } from '../ui/icons/export.svg';
-import { ReactComponent as SkipIcon } from '../ui/icons/skip.svg';
+import ExportIcon from '../ui/icons/export.svg?react';
+import SkipIcon from '../ui/icons/skip.svg?react';
 import Markdown from '../ui/Markdown';
 import BarStacked1DComponent from './BarStacked1DComponent';
 import BarStacked2DComponent from './BarStacked2DComponent';
@@ -46,7 +46,7 @@ const Results = () => {
         return;
       }
       return authenticatedFetch(
-        `${process.env.REACT_APP_API_URL}/projects/${projectId}/pdf-report`,
+        `${import.meta.env.VITE_API_URL}/projects/${projectId}/pdf-report`,
       );
     },
     {

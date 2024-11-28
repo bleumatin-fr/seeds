@@ -6,8 +6,8 @@ import { IconContainer, scopeIcons } from './ResultsSimple';
 import { TitleScoreContainer } from './ResultsSimple';
 
 import Tooltip from '@mui/material/Tooltip';
-import { ReactComponent as Identity } from '../ui/icons/categories/infos générales.svg';
-import { ReactComponent as Help } from '../ui/icons/help.svg';
+import Identity from '../ui/icons/categories/infos générales.svg?react';
+import Help from '../ui/icons/help.svg?react';
 
 interface ScoreCardProps {
   result: ScoreCard;

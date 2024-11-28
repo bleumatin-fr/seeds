@@ -1,7 +1,7 @@
 import { Parameter, Value } from '@arviva/core';
 import styled from '@emotion/styled';
 import { useState } from 'react';
-import { ReactComponent as BaseHelp } from '../ui/icons/help.svg';
+import BaseHelp from '../ui/icons/help.svg?react';
 
 import {
   Button,

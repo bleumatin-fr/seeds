@@ -183,7 +183,7 @@ const dataProvider = (
 
   migrateProject: async (projectId: string, modelId: string) => {
     return await httpClient(
-      `${process.env.REACT_APP_API_URL}/projects/${projectId}/migrate`,
+      `${import.meta.env.VITE_API_URL}/projects/${projectId}/migrate`,
       {
         method: 'POST',
         headers: new Headers({

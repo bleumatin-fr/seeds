@@ -63,7 +63,7 @@ const PublishButton = () => {
     event.preventDefault();
 
     await httpClient(
-      `${process.env.REACT_APP_API_URL}/models/${record.id}/publish`,
+      `${import.meta.env.VITE_API_URL}/models/${record.id}/publish`,
       {
         method: 'POST',
       },

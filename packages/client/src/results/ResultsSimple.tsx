@@ -11,9 +11,9 @@ import IndicatorComponent from './IndicatorComponent';
 import ScoreCardComponent from './ScoreCardComponent';
 
 import HelpIcon from '@mui/icons-material/Help';
-import { ReactComponent as BiodivIcon } from '../ui/icons/biodiv.svg';
-import { ReactComponent as Co2Icon } from '../ui/icons/co2.svg';
-import { ReactComponent as ResourcesIcon } from '../ui/icons/ressources.svg';
+import BiodivIcon from '../ui/icons/biodiv.svg?react';
+import Co2Icon from '../ui/icons/co2.svg?react';
+import ResourcesIcon from '../ui/icons/ressources.svg?react';
 import Pie1DComponent, { Pie1DLegend } from './Pie1DComponent';
 const Block = styled(BaseBlock)`
   background-color: var(--lightgreen);

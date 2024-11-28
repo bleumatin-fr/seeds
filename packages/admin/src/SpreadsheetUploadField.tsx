@@ -24,7 +24,7 @@ import {
 } from 'react-admin';
 import FileUpload from 'react-mui-fileuploader';
 
-const API_URL = process.env.REACT_APP_API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface Error {
   address?: string;

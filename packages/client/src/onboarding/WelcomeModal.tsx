@@ -6,8 +6,8 @@ import {
   Link,
 } from '@mui/material';
 import Button from '../ui/Button';
-import { ReactComponent as SkipIcon } from '../ui/icons/skip.svg';
-import { ReactComponent as BaseIllustration } from './images/dig-holes.svg';
+import SkipIcon from '../ui/icons/skip.svg?react';
+import BaseIllustration from './images/dig-holes.svg?react';
 
 interface WelcomeModalProps {
   open: boolean;

@@ -59,7 +59,7 @@ export const MigrateDialog = ({ open, onClose }: MigrateDialogProps) => {
 
     setLoading(false);
     window.open(
-      `${process.env.REACT_APP_FRONT_URL}/project/${result.json._id}`,
+      `${import.meta.env.VITE_FRONT_URL}/project/${result.json._id}`,
       '_blank',
     );
     onClose();

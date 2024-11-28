@@ -3,11 +3,11 @@ import { Divider } from '@mui/material';
 import { MouseEvent } from 'react';
 
 import { AddButton } from '../../ui/Button';
-import { ReactComponent as Add } from '../../ui/icons/add.svg';
-import { ReactComponent as Freight } from '../../ui/icons/categories/marchandise.svg';
-import { ReactComponent as Edit } from '../../ui/icons/edit.svg';
-import { ReactComponent as People } from '../../ui/icons/PERS.svg';
-import { ReactComponent as Send } from '../../ui/icons/send.svg';
+import Add from '../../ui/icons/add.svg?react';
+import Freight from '../../ui/icons/categories/marchandise.svg?react';
+import Edit from '../../ui/icons/edit.svg?react';
+import People from '../../ui/icons/PERS.svg?react';
+import Send from '../../ui/icons/send.svg?react';
 import { Travel, TravelLoad, TravelType } from '../context/types';
 import useStep from '../context/useStep';
 import useTour from '../context/useTour';

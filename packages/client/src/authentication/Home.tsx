@@ -5,7 +5,7 @@ import BaseBlock from '../ui/Block';
 
 import { useEffect } from 'react';
 import Button from '../ui/Button';
-import { ReactComponent as WishesIllustration } from '../ui/icons/intro.svg';
+import WishesIllustration from '../ui/icons/intro.svg?react';
 import useConfiguration from '../useConfiguration';
 
 import bike from '../project/pdf/images/bike.svg';

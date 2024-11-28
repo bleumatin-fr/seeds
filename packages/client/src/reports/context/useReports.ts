@@ -4,7 +4,7 @@ import { authenticatedFetch } from '../../authentication/authenticatedFetch';
 
 const getReports = async (filter: any): Promise<Report[]> => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/reports?${new URLSearchParams(
+    `${import.meta.env.VITE_API_URL}/reports?${new URLSearchParams(
       filter,
     ).toString()}`,
   );
@@ -16,7 +16,7 @@ const getReports = async (filter: any): Promise<Report[]> => {
 
 const removeReport = async (reportId: string): Promise<Report> => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/reports/${reportId}`,
+    `${import.meta.env.VITE_API_URL}/reports/${reportId}`,
     {
       method: 'DELETE',
     },
@@ -42,7 +42,7 @@ const createReport = async ({
   endDate: Date;
 }) => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/reports`,
+    `${import.meta.env.VITE_API_URL}/reports`,
     {
       method: 'POST',
       body: JSON.stringify({ projects, name, startDate, endDate }),

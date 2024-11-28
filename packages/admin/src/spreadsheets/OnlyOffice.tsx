@@ -75,7 +75,7 @@ const OnlyOffice = ({ className }: { className: string }) => {
   const document = useRecordContext();
   const [fullscreen, setFullscreen] = useState(false);
   const status = useScript(
-    `${process.env.REACT_APP_DOCUMENTSERVER_URL}/web-apps/apps/api/documents/api.js`,
+    `${import.meta.env.VITE_DOCUMENTSERVER_URL}/web-apps/apps/api/documents/api.js`,
   );
 
   const config = {

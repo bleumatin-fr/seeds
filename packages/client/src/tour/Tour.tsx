@@ -10,11 +10,11 @@ import useTour from './context/useTour';
 import LocationEventsView from './travel/LocationEventsView';
 import TravelsView from './travel/TravelsView';
 
-import { ReactComponent as Flag } from '../ui/icons/flag.svg';
+import Flag from '../ui/icons/flag.svg?react';
 import TravelsForm from './travel/TravelsForm';
 
 import { NoBorderButton } from '../ui/Button';
-import { ReactComponent as Add } from '../ui/icons/add.svg';
+import Add from '../ui/icons/add.svg?react';
 
 const StepsContainer = styled.div``;
 

@@ -65,7 +65,7 @@ const mergeValues = (values: ParameterInput[]) => {
 
 const getSimulation = async (modelName: string): Promise<Project> => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/simulations/${modelName}`,
+    `${import.meta.env.VITE_API_URL}/simulations/${modelName}`,
   );
   return await response.json();
 };
@@ -75,7 +75,7 @@ const postSimulation = async (
   body: BodyInit | null | undefined,
 ) => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/simulations/${modelName}`,
+    `${import.meta.env.VITE_API_URL}/simulations/${modelName}`,
     {
       method: 'POST',
       body,

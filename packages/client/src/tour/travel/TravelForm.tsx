@@ -13,7 +13,7 @@ import useTour from '../context/useTour';
 
 import { IconButton, InputAdornment } from '@mui/material';
 import ButtonWithConfirm from '../../ui/ButtonWithConfirm';
-import { ReactComponent as Delete } from '../../ui/icons/delete.svg';
+import Delete from '../../ui/icons/delete.svg?react';
 import CityAutocomplete from '../CityAutocomplete';
 import computeDistance from './computeDistance';
 import MeansInput from './MeansInput';

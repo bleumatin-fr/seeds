@@ -7,11 +7,11 @@ import { useProject } from '../../project/context/useProject';
 import { TitleBlock } from '../../ui/Block';
 import Button, { SortButton } from '../../ui/Button';
 import { PageContainer } from '../../ui/Container';
-import { ReactComponent as CostIcon } from '../../ui/icons/cost.svg';
-import { ReactComponent as ImpactIcon } from '../../ui/icons/impact.svg';
-import { ReactComponent as SkipIcon } from '../../ui/icons/skip.svg';
-import { ReactComponent as SortIcon } from '../../ui/icons/sort.svg';
-import { ReactComponent as TimeframeIcon } from '../../ui/icons/timeframe.svg';
+import CostIcon from '../../ui/icons/cost.svg?react';
+import ImpactIcon from '../../ui/icons/impact.svg?react';
+import SkipIcon from '../../ui/icons/skip.svg?react';
+import SortIcon from '../../ui/icons/sort.svg?react';
+import TimeframeIcon from '../../ui/icons/timeframe.svg?react';
 import ActionCard from './ActionCard';
 
 const ActionsGrid = styled.div`

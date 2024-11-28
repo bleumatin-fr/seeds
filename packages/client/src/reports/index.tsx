@@ -6,7 +6,7 @@ import Button from '../ui/Button';
 import useConfiguration from '../useConfiguration';
 import useReports from './context/useReports';
 import CreateReportModal from './CreateReportModal';
-import { ReactComponent as BaseEmptyIllustration } from './images/blank_canvas.svg';
+import BaseEmptyIllustration from './images/blank_canvas.svg?react';
 import ReportCard from './ReportCard';
 
 const ReportsContainer = styled.div`

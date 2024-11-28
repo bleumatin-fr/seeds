@@ -2,10 +2,10 @@ import { Action } from '@arviva/core';
 import styled from '@emotion/styled';
 import { ReactElement } from 'react';
 
-import { ReactComponent as BiodivIcon } from '../../ui/icons/biodiv.svg';
-import { ReactComponent as Identity } from '../../ui/icons/categories/infos générales.svg';
-import { ReactComponent as Co2Icon } from '../../ui/icons/co2.svg';
-import { ReactComponent as ResourcesIcon } from '../../ui/icons/ressources.svg';
+import BiodivIcon from '../../ui/icons/biodiv.svg?react';
+import Identity from '../../ui/icons/categories/infos générales.svg?react';
+import Co2Icon from '../../ui/icons/co2.svg?react';
+import ResourcesIcon from '../../ui/icons/ressources.svg?react';
 
 const ActionWrapper = styled.div`
   padding: 6px;

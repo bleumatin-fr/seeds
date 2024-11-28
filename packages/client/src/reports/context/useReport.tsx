@@ -5,7 +5,7 @@ import { authenticatedFetch } from '../../authentication/authenticatedFetch';
 const getReport = async (reportId?: string): Promise<Report | undefined> => {
   if(!reportId) return undefined;
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/reports/${reportId}`,
+    `${import.meta.env.VITE_API_URL}/reports/${reportId}`,
   );
   if(!response.ok) return undefined;
   return await response.json();

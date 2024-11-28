@@ -5,10 +5,10 @@ import { Model, ParameterInput, Project } from '@arviva/core';
 import styled from '@emotion/styled';
 import Button from '../ui/Button';
 
-import { ReactComponent as Add } from '../ui/icons/add.svg';
-import { ReactComponent as DateIcon } from '../ui/icons/date.svg';
-import { ReactComponent as Flag } from '../ui/icons/flag.svg';
-import { ReactComponent as Sort } from '../ui/icons/sort.svg';
+import Add from '../ui/icons/add.svg?react';
+import DateIcon from '../ui/icons/date.svg?react';
+import Flag from '../ui/icons/flag.svg?react';
+import Sort from '../ui/icons/sort.svg?react';
 import Loader from '../ui/Loader';
 
 import useModels from './context/useModels';

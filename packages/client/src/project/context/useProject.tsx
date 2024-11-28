@@ -85,7 +85,7 @@ const shareProject = async ({
   projectId: string;
 }) => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/projects/share/add/${projectId}`,
+    `${import.meta.env.VITE_API_URL}/projects/share/add/${projectId}`,
     {
       method: 'PATCH',
       body: JSON.stringify({ email, message: message || '' }),
@@ -105,7 +105,7 @@ const updateSharedUsers = async ({
   projectId: string;
 }) => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/projects/share/update/${projectId}`,
+    `${import.meta.env.VITE_API_URL}/projects/share/update/${projectId}`,
     {
       method: 'PATCH',
       body: JSON.stringify({ usersId }),
@@ -119,14 +119,14 @@ const updateSharedUsers = async ({
 
 const getProject = async (projectId: string): Promise<Project> => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/projects/${projectId}`,
+    `${import.meta.env.VITE_API_URL}/projects/${projectId}`,
   );
   return await response.json();
 };
 
 const patchProject = async (id: string, body: BodyInit | null | undefined) => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/projects/${id}`,
+    `${import.meta.env.VITE_API_URL}/projects/${id}`,
     {
       method: 'PATCH',
       body,

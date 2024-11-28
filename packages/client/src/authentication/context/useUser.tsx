@@ -25,7 +25,7 @@ export type User = UserProfile &
 
 const getUser = async (): Promise<User> => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/authentication/me`,
+    `${import.meta.env.VITE_API_URL}/authentication/me`,
     {
       method: 'GET',
     },
@@ -35,7 +35,7 @@ const getUser = async (): Promise<User> => {
 
 const changeProfile = async (user: UserProfile): Promise<User> => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/authentication/me`,
+    `${import.meta.env.VITE_API_URL}/authentication/me`,
     {
       method: 'PUT',
       body: JSON.stringify(user),
@@ -46,7 +46,7 @@ const changeProfile = async (user: UserProfile): Promise<User> => {
 
 const changePassword = async (user: UserPassword): Promise<User> => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/authentication/me`,
+    `${import.meta.env.VITE_API_URL}/authentication/me`,
     {
       method: 'PUT',
       body: JSON.stringify(user),

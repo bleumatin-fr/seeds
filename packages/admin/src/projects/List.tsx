@@ -53,7 +53,7 @@ const ListActions = () => {
     setLoading(true);
 
     const statisticFileBlob: Blob = await httpClient(
-      `${process.env.REACT_APP_API_URL}/projects/statistics`,
+      `${import.meta.env.VITE_API_URL}/projects/statistics`,
       {
         method: 'GET',
         headers: new Headers({

@@ -1,7 +1,7 @@
 import { Indicator } from '@arviva/core';
 import styled from '@emotion/styled';
 
-import { ReactComponent as Identity } from '../ui/icons/categories/infos générales.svg';
+import Identity from '../ui/icons/categories/infos générales.svg?react';
 import { IconContainer, scopeIcons } from './ResultsSimple';
 
 import { TitleScoreContainer } from './ResultsSimple';

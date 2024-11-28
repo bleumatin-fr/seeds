@@ -24,7 +24,7 @@ export const SeeProjectField = ({
       variant="contained"
       startIcon={<PreviewIcon />}
       color="primary"
-      href={`${process.env.REACT_APP_FRONT_URL}/project/${value}`}
+      href={`${import.meta.env.VITE_FRONT_URL}/project/${value}`}
       onClick={(e) => {
         e.stopPropagation();
       }}

@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'usehooks-ts';
 import useProjects from '../project/context/useProjects';
-import { ReactComponent as AddIcon } from '../ui/icons/add.svg';
+import AddIcon from '../ui/icons/add.svg?react';
 
 import CompletionBar from '../project/CompletionBar';
 

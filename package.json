@@ -5,7 +5,6 @@
   ],
   "version": "1.0.0",
   "description": "",
-  "private": true,
   "scripts": {
     "start": "lerna run start --stream --parallel",
     "stop": "lerna run stop",

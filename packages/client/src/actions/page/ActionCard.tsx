@@ -9,12 +9,12 @@ import {
   DialogTitle,
 } from '@mui/material';
 import BaseBlock from '../../ui/Block';
-import { ReactComponent as BiodivIcon } from '../../ui/icons/biodiv.svg';
-import { ReactComponent as Identity } from '../../ui/icons/categories/infos générales.svg';
-import { ReactComponent as Co2Icon } from '../../ui/icons/co2.svg';
-import { ReactComponent as CostIcon } from '../../ui/icons/cost.svg';
-import { ReactComponent as ResourcesIcon } from '../../ui/icons/ressources.svg';
-import { ReactComponent as TimeframeIcon } from '../../ui/icons/timeframe.svg';
+import BiodivIcon from '../../ui/icons/biodiv.svg?react';
+import Identity from '../../ui/icons/categories/infos générales.svg?react';
+import Co2Icon from '../../ui/icons/co2.svg?react';
+import CostIcon from '../../ui/icons/cost.svg?react';
+import ResourcesIcon from '../../ui/icons/ressources.svg?react';
+import TimeframeIcon from '../../ui/icons/timeframe.svg?react';
 
 const ImpactsContainer = styled.div`
   display: flex;

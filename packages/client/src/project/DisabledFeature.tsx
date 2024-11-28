@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import OriginalBlock from '../ui/Block';
-import { ReactComponent as CompassIcon } from '../ui/icons/compass.svg';
+import CompassIcon from '../ui/icons/compass.svg?react';
 
 const Block = styled(OriginalBlock)`
   display: flex;

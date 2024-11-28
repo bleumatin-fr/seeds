@@ -11,7 +11,7 @@ import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import * as yup from 'yup';
 import BaseBlock from '../ui/Block';
-import { ReactComponent as NewsletterIllustration } from '../ui/icons/agir.svg';
+import NewsletterIllustration from '../ui/icons/agir.svg?react';
 import LoadingButton from '../ui/LoadingButton';
 import useConfiguration from '../useConfiguration';
 import useUser from './context/useUser';

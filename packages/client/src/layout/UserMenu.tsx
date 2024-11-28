@@ -15,10 +15,10 @@ import useUser from '../authentication/context/useUser';
 import PasswordChangeModal from '../authentication/PasswordChangeModal';
 import ProfileChangeModal from '../authentication/ProfileChangeModal';
 import useOnboarding, { OnboardingStep } from '../onboarding/useOnboarding';
-import { ReactComponent as AccountIcon } from '../ui/icons/account.svg';
-import { ReactComponent as PasswordIcon } from '../ui/icons/change-password.svg';
-import { ReactComponent as CompassIcon } from '../ui/icons/compass.svg';
-import { ReactComponent as ExitIcon } from '../ui/icons/exit.svg';
+import AccountIcon from '../ui/icons/account.svg?react';
+import PasswordIcon from '../ui/icons/change-password.svg?react';
+import CompassIcon from '../ui/icons/compass.svg?react';
+import ExitIcon from '../ui/icons/exit.svg?react';
 
 // https://stackoverflow.com/a/72595895/1665540
 const contrastColor = (backgroundColor: string) => {

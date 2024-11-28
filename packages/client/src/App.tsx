@@ -66,9 +66,9 @@ function App() {
   }, []);
 
   const initSentry = () => {
-    if (process.env.REACT_APP_SENTRY_DSN) {
+    if (import.meta.env.VITE_SENTRY_DSN) {
       Sentry.init({
-        dsn: process.env.REACT_APP_SENTRY_DSN,
+        dsn: import.meta.env.VITE_SENTRY_DSN,
         integrations: [new BrowserTracing()],
         tracesSampleRate: 1.0,
       });

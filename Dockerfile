@@ -19,8 +19,8 @@ WORKDIR /app
 
 COPY --from=build /tmp/build/packages/server/dist /app
 
-COPY --from=build /tmp/build/packages/admin/build /app/admin
-COPY --from=build /tmp/build/packages/client/build /app/client
+COPY --from=build /tmp/build/packages/admin/dist /app/admin
+COPY --from=build /tmp/build/packages/client/dist /app/client
 RUN yarn install --production --frozen-lockfile
 
 COPY --from=build /tmp/build/packages/core/dist /app/node_modules/@arviva/core

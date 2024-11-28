@@ -19,7 +19,7 @@ import useUser from '../authentication/context/useUser';
 import { HeaderButton, IconContainer } from '../layout/Headers';
 import useOnboarding from '../onboarding/useOnboarding';
 import DisabledFeature from './DisabledFeature';
-import { ReactComponent as BaseLoadingIllustration } from './images/water-crops.svg';
+import BaseLoadingIllustration from './images/water-crops.svg?react';
 import ModalVersionUpdate from './ModalVersionUpdate';
 
 export interface SimulatorOptions {

@@ -9,9 +9,9 @@ import {
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import BaseBlock from '../ui/Block';
-import { ReactComponent as LockIcon } from '../ui/icons/change-password.svg';
-import { ReactComponent as CheckIcon } from '../ui/icons/check.svg';
-import { ReactComponent as CompassIcon } from '../ui/icons/compass.svg';
+import LockIcon from '../ui/icons/change-password.svg?react';
+import CheckIcon from '../ui/icons/check.svg?react';
+import CompassIcon from '../ui/icons/compass.svg?react';
 import useOnboarding from './useOnboarding';
 
 const Block = styled(BaseBlock)`

@@ -8,8 +8,8 @@ import {
 } from '@mui/material';
 import { ChangeEvent, MouseEvent, SyntheticEvent } from 'react';
 
-import { ReactComponent as Delete } from '../../ui/icons/delete.svg';
-import { ReactComponent as Help } from '../../ui/icons/help.svg';
+import Delete from '../../ui/icons/delete.svg?react';
+import Help from '../../ui/icons/help.svg?react';
 import { TourEvent } from '../context/types';
 import useStep from '../context/useStep';
 import useTour from '../context/useTour';

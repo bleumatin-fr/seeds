@@ -6,9 +6,9 @@ import useUser from '../authentication/context/useUser';
 import { getProjectTitle, useProject } from '../project/context/useProject';
 
 import DownloadForOfflineOutlinedIcon from '@mui/icons-material/DownloadForOfflineOutlined';
-import { ReactComponent as Export } from '../ui/icons/export.svg';
-import { ReactComponent as Home } from '../ui/icons/home.svg';
-import { ReactComponent as Next } from '../ui/icons/next.svg';
+import Export from '../ui/icons/export.svg?react';
+import Home from '../ui/icons/home.svg?react';
+import Next from '../ui/icons/next.svg?react';
 
 import ShareProject from '../project/ShareProject';
 
@@ -279,7 +279,7 @@ const ShareButton = ({ project }: { project: Project }) => {
     setLoading(true);
 
     const response = await authenticatedFetch(
-      `${process.env.REACT_APP_API_URL}/projects/${project._id}`,
+      `${import.meta.env.VITE_API_URL}/projects/${project._id}`,
       {
         method: 'GET',
         headers: new Headers({

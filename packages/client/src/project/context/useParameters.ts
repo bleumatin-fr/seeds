@@ -5,7 +5,7 @@ import { authenticatedFetch } from '../../authentication/authenticatedFetch';
 export const getParameters = async (
   parameters?: string[],
 ): Promise<Parameter[]> => {
-  let url = `${process.env.REACT_APP_API_URL}/projects/parameters`;
+  let url = `${import.meta.env.VITE_API_URL}/projects/parameters`;
 
   if (parameters) {
     url +=

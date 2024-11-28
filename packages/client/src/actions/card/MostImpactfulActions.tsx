@@ -6,7 +6,7 @@ import Button from '../../ui/Button';
 import ActionRow from './ActionRow';
 
 import Tooltip from '@mui/material/Tooltip';
-import { ReactComponent as Help } from '../../ui/icons/help.svg';
+import Help from '../../ui/icons/help.svg?react';
 
 const Block = styled(BaseBlock)`
   justify-content: flex-start;

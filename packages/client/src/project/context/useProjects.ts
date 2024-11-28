@@ -4,7 +4,7 @@ import { authenticatedFetch } from '../../authentication/authenticatedFetch';
 
 const getProjects = async (filter: any): Promise<Project[]> => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/projects?${new URLSearchParams(
+    `${import.meta.env.VITE_API_URL}/projects?${new URLSearchParams(
       filter,
     ).toString()}`,
   );
@@ -22,7 +22,7 @@ const createProject = async ({
   type?: string;
 }) => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/projects`,
+    `${import.meta.env.VITE_API_URL}/projects`,
     {
       method: 'POST',
       body: JSON.stringify({ values: values || [], type: type || '' }),
@@ -36,7 +36,7 @@ const createProject = async ({
 
 const removeProject = async (projectId: string): Promise<Project> => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/projects/${projectId}`,
+    `${import.meta.env.VITE_API_URL}/projects/${projectId}`,
     {
       method: 'DELETE',
     },
@@ -49,7 +49,7 @@ const removeProject = async (projectId: string): Promise<Project> => {
 
 const duplicateProject = async (projectId: string): Promise<Project> => {
   const response = await authenticatedFetch(
-    `${process.env.REACT_APP_API_URL}/projects/${projectId}/duplicate`,
+    `${import.meta.env.VITE_API_URL}/projects/${projectId}/duplicate`,
     {
       method: 'POST',
     },
