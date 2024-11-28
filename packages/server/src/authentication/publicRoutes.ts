@@ -47,7 +47,7 @@ router.post('/register', async (request, response) => {
 });
 
 router.post('/login', async (request, response) => {
-  const user = await User.findOne({ email: request.body.email });
+  const user = await User.findOne({ email: { $eq: request.body.email } });
   if (!user) {
     throw new HttpError(401, 'Unauthorized');
   }
@@ -128,7 +128,7 @@ router.put('/me', authenticate, async (request, response) => {
 });
 
 router.post('/recover', async (request, response) => {
-  const user = await User.findOne({ email: request.body.email });
+  const user = await User.findOne({ email: { $eq: request.body.email } });
 
   if (!user) {
     // always return success, even if the email is not registered
@@ -167,7 +167,9 @@ router.post('/recover', async (request, response) => {
 
 router.post('/reset-password', async (request, response) => {
   const { token: resetPasswordToken, password } = request.body;
-  const user = await User.findOne({ resetPasswordToken });
+  const user = await User.findOne({
+    resetPasswordToken: { $eq: resetPasswordToken },
+  });
 
   if (!user) {
     throw new HttpError(401, 'Unauthorized');

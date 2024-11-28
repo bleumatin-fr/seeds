@@ -139,6 +139,16 @@ router.put(
     response,
   ) => {
     const { users } = request.body;
+
+    if (
+      !Array.isArray(users) ||
+      !users.every((user) => {
+        return typeof user.id === 'string' && typeof user.role === 'string';
+      })
+    ) {
+      throw new HttpError(400, 'Invalid users');
+    }
+
     const newProject = await Project.findOneAndUpdate(
       { _id: request.params.id },
       { users },
@@ -172,7 +182,7 @@ router.post('/:id/migrate', async (request, response) => {
     throw new HttpError(404, 'Not found');
   }
 
-  const newModel = await Model.findById(request.body.modelId);
+  const newModel = await Model.findOne({ _id: { $eq: request.body.modelId } });
   if (!newModel) {
     throw new HttpError(404, 'Model not found');
   }

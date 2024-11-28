@@ -8,6 +8,7 @@ import {
 } from '@arviva/core';
 import express from 'express';
 
+import { FilterQuery } from 'mongoose';
 import Model from './model';
 
 const router = express.Router();
@@ -22,9 +23,9 @@ export const flattenParameters = (sectors: Sector[]): Parameter[] =>
 router.get('/', async (request, response) => {
   const { type } = request.query;
 
-  let query: any = undefined;
+  let query: FilterQuery<typeof Model> = {};
   if (type) {
-    query = { type };
+    query = { type: { $eq: type } };
   } else {
     query = {
       status: ModelStatus.PUBLISHED,

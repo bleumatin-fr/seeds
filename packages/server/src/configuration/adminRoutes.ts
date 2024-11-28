@@ -15,15 +15,9 @@ interface RequestQuery {
 router.get(
   '/',
   async (request: Request<{}, {}, {}, RequestQuery>, response) => {
-    const {
-      _end,
-      _order,
-      _sort,
-      _start,
-    } = request.query;
+    const { _end, _order, _sort, _start } = request.query;
 
     const configurationCount = await Configuration.count();
-
 
     let sort: { [key: string]: SortOrder } = {
       [_sort]: _order === 'ASC' ? 1 : -1,
@@ -42,7 +36,9 @@ router.get(
 );
 
 router.get('/:id', async (request, response) => {
-  const foundConfiguration = await Configuration.findOne({ _id: request.params.id });
+  const foundConfiguration = await Configuration.findOne({
+    _id: request.params.id,
+  });
   if (!foundConfiguration) {
     throw new HttpError(404, 'Not found');
   }
@@ -56,10 +52,14 @@ router.post('/', async (request, response) => {
 
 router.put(
   '/:id',
-  async (request: Request<{ id: string }, {}, { name: string }>, response) => {
+  async (
+    request: Request<{ id: string }, {}, { name: string; value: string }>,
+    response,
+  ) => {
+    const { name, value } = request.body;
     const newConfiguration = await Configuration.findOneAndUpdate(
       { _id: request.params.id },
-      request.body,
+      { name, value },
       {
         upsert: false,
         new: true,

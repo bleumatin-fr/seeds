@@ -26,7 +26,7 @@ router.get('/', async (request, response) => {
   let filter: FilterQuery<typeof Model> = {};
 
   if (type) {
-    filter = { type };
+    filter = { type: { $eq: type } };
   }
 
   const modelsCount = await Model.count(filter);
@@ -60,7 +60,7 @@ router.get('/:id', async (request, response) => {
 router.post('/', upload.single('spreadsheet'), async (request, response) => {
   const { type, changelog, userInformation } = request.body;
 
-  const existingModelType = await Model.find({ type })
+  const existingModelType = await Model.find({ type: { $eq: type } })
     .sort({
       versionNumber: -1,
     })
@@ -84,7 +84,7 @@ router.post('/', upload.single('spreadsheet'), async (request, response) => {
   }
 
   const publishedModel = await Model.findOne({
-    type,
+    type: { $eq: type },
     status: ModelStatus.PUBLISHED,
   });
   let config: Configuration | null = null;
@@ -140,10 +140,34 @@ router.post('/:id/publish', async (request, response) => {
 
 router.put(
   '/:id',
-  async (request: Request<{ id: string }, {}, { name: string }>, response) => {
+  async (
+    request: Request<
+      { id: string },
+      {},
+      {
+        name: string;
+        singularName: string;
+        versionNumber: number;
+        status: string;
+        type: string;
+        description: string;
+        config: Configuration;
+      }
+    >,
+    response,
+  ) => {
+    const {
+      name,
+      singularName,
+      versionNumber,
+      status,
+      type,
+      description,
+      config,
+    } = request.body;
     const newModel = await Model.findOneAndUpdate(
       { _id: request.params.id },
-      request.body,
+      { name, singularName, versionNumber, status, type, description, config },
       {
         upsert: false,
         new: true,

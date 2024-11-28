@@ -139,6 +139,15 @@ router.get('/:spreadsheetId', async (request, response) => {
     `${spreadsheetId}_original.xlsx`,
   );
 
+  const realOriginalFilePath = await fs.realpath(originalFilePath);
+  if (
+    !realOriginalFilePath.startsWith(
+      process.env.DOCBUILDER_SPREADSHEET_FOLDER,
+    )
+  ) {
+    throw new HttpError(400, 'Invalid path');
+  }
+
   if (!fsSync.existsSync(originalFilePath)) {
     return response.sendFile(
       path.resolve(
@@ -261,6 +270,10 @@ export const updateFileAndProject = async (
   spreadsheetId: string,
   file: ArrayBufferLike,
 ) => {
+  if (!process.env.DOCBUILDER_SPREADSHEET_FOLDER) {
+    throw new Error('DOCBUILDER_SPREADSHEET_FOLDER not set');
+  }
+
   const technicalSpreadsheetId = spreadsheetId.includes(':')
     ? spreadsheetId.split(':')[1]
     : spreadsheetId;
@@ -269,13 +282,37 @@ export const updateFileAndProject = async (
   const foundProject = await Project.findOne({ spreadsheetId });
   if (foundProject) {
     const originalFilePath = `${process.env.DOCBUILDER_SPREADSHEET_FOLDER}/${technicalSpreadsheetId}.xlsx`;
+    const realOriginalFilePath = await fs.realpath(originalFilePath);
+    if (
+      !realOriginalFilePath.startsWith(
+        process.env.DOCBUILDER_SPREADSHEET_FOLDER,
+      )
+    ) {
+      throw new HttpError(400, 'Invalid path');
+    }
     fs.writeFile(originalFilePath, buffer);
     await refreshProject(foundProject, buffer);
   } else {
     const originalFilePath = `${process.env.DOCBUILDER_SPREADSHEET_FOLDER}/${technicalSpreadsheetId}_original.xlsx`;
+    const realOriginalFilePath = await fs.realpath(originalFilePath);
+    if (
+      !realOriginalFilePath.startsWith(
+        process.env.DOCBUILDER_SPREADSHEET_FOLDER,
+      )
+    ) {
+      throw new HttpError(400, 'Invalid path');
+    }
     await fs.writeFile(originalFilePath, buffer);
 
     const optimizedFilePath = `${process.env.DOCBUILDER_SPREADSHEET_FOLDER}/${technicalSpreadsheetId}_optimized.xlsx`;
+    const realOptimizedFilePath = await fs.realpath(originalFilePath);
+    if (
+      !realOptimizedFilePath.startsWith(
+        process.env.DOCBUILDER_SPREADSHEET_FOLDER,
+      )
+    ) {
+      throw new HttpError(400, 'Invalid path');
+    }
     await optimizeAndWriteFile(optimizedFilePath, file);
   }
 };
