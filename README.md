@@ -24,7 +24,6 @@ yarn start
 - API : http://localhost:3000
 - Public front-end : http://localhost:4001
 - Admin : http://localhost:4002
-- Maildev : http://localhost:1080
 
 ## Migrations
 

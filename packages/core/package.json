@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "string-to-color": "^2.2.2",
-    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.1/xlsx-0.20.1.tgz"
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
   },
   "devDependencies": {
     "@types/mongoose": "^5.11.97",

@@ -11,7 +11,6 @@ import express, { Application } from 'express';
 import 'express-async-errors';
 import boolParser from 'express-query-boolean';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import MailDev from 'maildev';
 import {
   authenticate,
   checkIsDocumentServer,
@@ -99,26 +98,6 @@ if (process.env.PROXY_DOCUMENT_SERVER_URL) {
   );
 }
 
-if (process.env.MAILDEV_ENABLED === 'true') {
-  const maildev = new MailDev({
-    basePathname: '/mail',
-  } as any);
-
-  maildev.listen((err) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-  });
-
-  app.use(
-    '/mail',
-    createProxyMiddleware('/mail', {
-      target: `http://localhost:1080/`,
-      ws: true,
-    }),
-  );
-}
 
 const whitelist = process.env.WHITELISTED_DOMAINS
   ? process.env.WHITELISTED_DOMAINS.split(',')
