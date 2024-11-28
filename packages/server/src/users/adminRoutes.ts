@@ -40,7 +40,7 @@ router.get('/', async (request, response) => {
 
   if (q) {
     if (validateEmail(q)) {
-      filter = { ...filter, email: q };
+      filter = { ...filter, email: { $eq: q } };
     } else {
       filter = { ...filter, $text: { $search: q } };
     }
