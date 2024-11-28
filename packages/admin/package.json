@@ -34,7 +34,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "sh -ac '. ./.env.${NODE_ENV:-development}; tsc && vite build"
+    "build": "sh -ac '. ./.env.${NODE_ENV:-development}; tsc && vite build'"
   },
   "eslintConfig": {
     "extends": [
