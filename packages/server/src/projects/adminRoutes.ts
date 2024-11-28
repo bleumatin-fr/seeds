@@ -1,4 +1,5 @@
 import express, { Request } from 'express';
+import sanitize from 'mongo-sanitize';
 import { SortOrder } from 'mongoose';
 import path from 'path';
 import { HttpError } from '../middlewares/errorHandler';
@@ -149,9 +150,11 @@ router.put(
       throw new HttpError(400, 'Invalid users');
     }
 
+    const sanitizedUsers = sanitize(users);
+
     const newProject = await Project.findOneAndUpdate(
       { _id: request.params.id },
-      { users },
+      { users: sanitizedUsers },
       {
         upsert: false,
         new: true,

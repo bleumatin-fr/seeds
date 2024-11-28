@@ -1,5 +1,6 @@
 import { Configuration, ModelStatus, spreadsheet } from '@arviva/core';
 import express, { Request } from 'express';
+import sanitize from 'mongo-sanitize';
 import { FilterQuery } from 'mongoose';
 import multer from 'multer';
 import { HttpError } from '../middlewares/errorHandler';
@@ -176,9 +177,18 @@ router.put(
     ) {
       throw new HttpError(400, 'Invalid input data');
     }
+    const sanitizedConfig = sanitize(config);
     const newModel = await Model.findOneAndUpdate(
       { _id: { $eq: request.params.id } },
-      { name, singularName, versionNumber, status, type, description, config },
+      {
+        name,
+        singularName,
+        versionNumber,
+        status,
+        type,
+        description,
+        config: sanitizedConfig,
+      },
       {
         upsert: false,
         new: true,
