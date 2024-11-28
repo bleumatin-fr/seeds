@@ -166,7 +166,7 @@ router.put(
       config,
     } = request.body;
     const newModel = await Model.findOneAndUpdate(
-      { _id: request.params.id },
+      { _id: { $eq: request.params.id } },
       { name, singularName, versionNumber, status, type, description, config },
       {
         upsert: false,
