@@ -1,5 +1,6 @@
 {
   "name": "@arviva/workspace",
+  "private": true,
   "workspaces": [
     "packages/*"
   ],
