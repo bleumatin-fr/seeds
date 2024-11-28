@@ -10,6 +10,7 @@ import cors from 'cors';
 import express, { Application } from 'express';
 import 'express-async-errors';
 import boolParser from 'express-query-boolean';
+import { rateLimit } from 'express-rate-limit';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 import {
   authenticate,
@@ -78,6 +79,17 @@ Sentry.init({
 });
 app.use(Sentry.Handlers.requestHandler());
 
+const limiter = rateLimit({
+  windowMs:
+    eval(process.env.RATE_LIMIT_WINDOW_MS || '15 * 60 * 1000') ||
+    15 * 60 * 1000,
+  limit: eval(process.env.RATE_LIMIT || '1000') || 1000,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+});
+
+app.use(limiter);
+
 if (process.env.PROXY_DOCUMENT_SERVER_URL) {
   if (!process.env.PROXY_HOSTNAME) {
     throw new Error('PROXY_HOSTNAME env variable is required');
@@ -97,7 +109,6 @@ if (process.env.PROXY_DOCUMENT_SERVER_URL) {
     }),
   );
 }
-
 
 const whitelist = process.env.WHITELISTED_DOMAINS
   ? process.env.WHITELISTED_DOMAINS.split(',')
