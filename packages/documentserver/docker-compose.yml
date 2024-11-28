@@ -7,5 +7,5 @@ services:
       - ./.docker/logs:/var/log/onlyoffice
     environment:
       - JWT_ENABLED=true
-      - JWT_SECRET=XcG8Eqnt3j52BQsJe2DskNB9
+      - JWT_SECRET=JWT_SECRET
       - GENERATE_FONTS=true

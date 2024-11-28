@@ -286,7 +286,10 @@ router.post('/:spreadsheetId/track', async (req, res) => {
   switch (req.body.status) {
     case DocumentStatus.Save: {
       const { url } = req.body;
-      const response = await fetch(url);
+      const urlObject = new URL(url);
+      const response = await fetch(
+        `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
+      );
 
       updateFileAndProject(spreadsheetId, await response.arrayBuffer());
 
@@ -294,7 +297,10 @@ router.post('/:spreadsheetId/track', async (req, res) => {
     }
     case DocumentStatus.ForceSave: {
       const { url } = req.body;
-      const response = await fetch(url);
+      const urlObject = new URL(url);
+      const response = await fetch(
+        `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
+      );
 
       updateFileAndProject(spreadsheetId, await response.arrayBuffer());
 
