@@ -11,6 +11,7 @@ import { UserType } from '../users/model';
 
 import { ModelStatus } from '@arviva/core';
 import multer from 'multer';
+import sanitizeFilename from 'sanitize-filename';
 import refreshProject from '../projects/refreshProject';
 import getConfigErrors from './getConfigErrors';
 import getFunctionErrors from './getFunctionErrors';
@@ -98,9 +99,11 @@ const getNewId = (): string =>
   new Date().getTime().toString(36) + Math.random().toString(36).slice(2);
 
 router.get('/:spreadsheetId', async (request, response) => {
-  const spreadsheetId = request.params.spreadsheetId.includes(':')
-    ? request.params.spreadsheetId.split(':')[1]
-    : request.params.spreadsheetId;
+  const sanitizedSpreadsheetId = sanitizeFilename(request.params.spreadsheetId);
+
+  const spreadsheetId = sanitizedSpreadsheetId.includes(':')
+    ? sanitizedSpreadsheetId.split(':')[1]
+    : sanitizedSpreadsheetId;
 
   if (request.header('Accept') === 'application/json') {
     const foundProject = await Project.findOne({ spreadsheetId });
@@ -124,7 +127,7 @@ router.get('/:spreadsheetId', async (request, response) => {
     };
 
     response.json({
-      id: request.params.spreadsheetId,
+      id: spreadsheetId,
       ...options,
     });
     return;
@@ -138,15 +141,6 @@ router.get('/:spreadsheetId', async (request, response) => {
     process.env.DOCBUILDER_SPREADSHEET_FOLDER,
     `${spreadsheetId}_original.xlsx`,
   );
-
-  const realOriginalFilePath = await fs.realpath(originalFilePath);
-  if (
-    !realOriginalFilePath.startsWith(
-      process.env.DOCBUILDER_SPREADSHEET_FOLDER,
-    )
-  ) {
-    throw new HttpError(400, 'Invalid path');
-  }
 
   if (!fsSync.existsSync(originalFilePath)) {
     return response.sendFile(
@@ -274,45 +268,25 @@ export const updateFileAndProject = async (
     throw new Error('DOCBUILDER_SPREADSHEET_FOLDER not set');
   }
 
-  const technicalSpreadsheetId = spreadsheetId.includes(':')
-    ? spreadsheetId.split(':')[1]
-    : spreadsheetId;
+  const sanitizedSpreadsheetId = sanitizeFilename(spreadsheetId);
+
+  const technicalSpreadsheetId = sanitizedSpreadsheetId.includes(':')
+    ? sanitizedSpreadsheetId.split(':')[1]
+    : sanitizedSpreadsheetId;
 
   const buffer = Buffer.from(file);
-  const foundProject = await Project.findOne({ spreadsheetId });
+  const foundProject = await Project.findOne({
+    spreadsheetId: { $eq: spreadsheetId },
+  });
   if (foundProject) {
     const originalFilePath = `${process.env.DOCBUILDER_SPREADSHEET_FOLDER}/${technicalSpreadsheetId}.xlsx`;
-    const realOriginalFilePath = await fs.realpath(originalFilePath);
-    if (
-      !realOriginalFilePath.startsWith(
-        process.env.DOCBUILDER_SPREADSHEET_FOLDER,
-      )
-    ) {
-      throw new HttpError(400, 'Invalid path');
-    }
     fs.writeFile(originalFilePath, buffer);
     await refreshProject(foundProject, buffer);
   } else {
     const originalFilePath = `${process.env.DOCBUILDER_SPREADSHEET_FOLDER}/${technicalSpreadsheetId}_original.xlsx`;
-    const realOriginalFilePath = await fs.realpath(originalFilePath);
-    if (
-      !realOriginalFilePath.startsWith(
-        process.env.DOCBUILDER_SPREADSHEET_FOLDER,
-      )
-    ) {
-      throw new HttpError(400, 'Invalid path');
-    }
     await fs.writeFile(originalFilePath, buffer);
 
     const optimizedFilePath = `${process.env.DOCBUILDER_SPREADSHEET_FOLDER}/${technicalSpreadsheetId}_optimized.xlsx`;
-    const realOptimizedFilePath = await fs.realpath(originalFilePath);
-    if (
-      !realOptimizedFilePath.startsWith(
-        process.env.DOCBUILDER_SPREADSHEET_FOLDER,
-      )
-    ) {
-      throw new HttpError(400, 'Invalid path');
-    }
     await optimizeAndWriteFile(optimizedFilePath, file);
   }
 };

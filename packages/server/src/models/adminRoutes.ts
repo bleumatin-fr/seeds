@@ -165,6 +165,17 @@ router.put(
       description,
       config,
     } = request.body;
+    if (
+      typeof name !== 'string' ||
+      typeof singularName !== 'string' ||
+      typeof versionNumber !== 'number' ||
+      typeof status !== 'string' ||
+      typeof type !== 'string' ||
+      typeof description !== 'string' ||
+      typeof config !== 'object'
+    ) {
+      throw new HttpError(400, 'Invalid input data');
+    }
     const newModel = await Model.findOneAndUpdate(
       { _id: { $eq: request.params.id } },
       { name, singularName, versionNumber, status, type, description, config },

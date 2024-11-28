@@ -62,6 +62,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemailer": "6.9.16",
     "puppeteer": "^22.6.0",
+    "sanitize-filename": "^1.6.3",
     "scmp": "^2.1.0",
     "string-replace-middleware": "^1.1.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"

@@ -57,6 +57,9 @@ router.put(
     response,
   ) => {
     const { name, value } = request.body;
+    if (typeof name !== 'string' || typeof value !== 'string') {
+      throw new HttpError(400, 'Invalid input data');
+    }
     const newConfiguration = await Configuration.findOneAndUpdate(
       { _id: request.params.id },
       { name, value },
