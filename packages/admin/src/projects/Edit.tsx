@@ -22,8 +22,6 @@ const ProjectEdit = () => (
   <Edit title={<ProjectTitle />}>
     <SimpleForm>
       <TextInput source="name" disabled />
-      <BooleanInput label="Public" source="public" />
-
       <NumberInput source="completionRate" disabled />
       <DateInput source="createdAt" disabled />
       <DateInput source="updatedAt" disabled />

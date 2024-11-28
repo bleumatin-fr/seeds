@@ -121,17 +121,27 @@ router.get('/:id', async (request, response) => {
   response.json(foundProject);
 });
 
-router.post('/', async (request, response) => {
-  const newProject = new Project(request.body);
-  response.json(await newProject.save());
-});
-
 router.put(
   '/:id',
-  async (request: Request<{ id: string }, {}, { name: string }>, response) => {
+  async (
+    request: Request<
+      { id: string },
+      {},
+      {
+        users: [
+          {
+            id: string;
+            role: string;
+          },
+        ];
+      }
+    >,
+    response,
+  ) => {
+    const { users } = request.body;
     const newProject = await Project.findOneAndUpdate(
       { _id: request.params.id },
-      request.body,
+      { users },
       {
         upsert: false,
         new: true,

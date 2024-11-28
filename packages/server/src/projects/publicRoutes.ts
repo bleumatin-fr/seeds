@@ -91,7 +91,9 @@ router.post('/', async (request, response) => {
     request.body;
 
   const model = await Model.findOne({
-    type: type,
+    type: {
+      $eq: type,
+    },
     status: ModelStatus.PUBLISHED,
   });
   if (!model) {
@@ -161,7 +163,10 @@ router.get('/:id', async (request, response) => {
   }
 
   if (request.headers.accept?.includes('application/vnd.ms-excel')) {
-    const statSpreadSheetId = await getStatisticsSpreadsheet([foundProject], true);
+    const statSpreadSheetId = await getStatisticsSpreadsheet(
+      [foundProject],
+      true,
+    );
 
     const spreadsheetId = statSpreadSheetId.includes(':')
       ? statSpreadSheetId.split(':')[1]
@@ -217,7 +222,7 @@ router.patch('/share/update/:id', authenticate, async (request, response) => {
   if (!foundProject) {
     throw new HttpError(404, 'Not found');
   }
-  const usersData = await User.find({ _id: usersId });
+  const usersData = await User.find({ _id: { $in: usersId } });
   const users = [
     ...foundProject.users.filter((user: ProjectUser) => user.role === 'owner'),
     ...usersData.map((user) => {
@@ -347,7 +352,11 @@ router.patch('/share/add/:id', authenticate, async (request, response) => {
     throw new HttpError(404, 'Not found');
   }
 
-  const foundUser = await User.findOne({ email }).lean();
+  const foundUser = await User.findOne({
+    email: {
+      $eq: email,
+    },
+  }).lean();
 
   //check if email is associated to shared user
   if (
@@ -569,9 +578,12 @@ router.get('/:id/pdf-report', async (request, response) => {
     });
     const page = await browser.newPage();
     const frontendUrl = process.env.FRONTEND_URL ?? 'http://localhost:4001';
-    await page.goto(`${frontendUrl}/project/${foundProject._id.toString()}/results`, {
-      waitUntil: 'networkidle0',
-    });
+    await page.goto(
+      `${frontendUrl}/project/${foundProject._id.toString()}/results`,
+      {
+        waitUntil: 'networkidle0',
+      },
+    );
     await page.evaluate(`(() => {
       localStorage.setItem('auth', '{"success":true,"token":"${token}"}');
       localStorage.setItem('seeds-onboarding-collapsed', 'true');
