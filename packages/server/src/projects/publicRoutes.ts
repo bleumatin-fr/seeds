@@ -557,6 +557,10 @@ router.delete('/:id', async (request, response) => {
 router.get('/:id/pdf-report', async (request, response) => {
   const authorizationHeader = request.headers.authorization;
   const projectId = request.params.id;
+  const foundProject = await Project.findById(projectId);
+  if (!foundProject) {
+    throw new HttpError(404, 'Not found');
+  }
   if (authorizationHeader) {
     const [_, token] = authorizationHeader.split(' ');
     const browser = await puppeteer.launch({
@@ -565,7 +569,7 @@ router.get('/:id/pdf-report', async (request, response) => {
     });
     const page = await browser.newPage();
     const frontendUrl = process.env.FRONTEND_URL ?? 'http://localhost:4001';
-    await page.goto(`${frontendUrl}/project/${projectId}/results`, {
+    await page.goto(`${frontendUrl}/project/${foundProject._id.toString()}/results`, {
       waitUntil: 'networkidle0',
     });
     await page.evaluate(`(() => {
@@ -579,7 +583,7 @@ router.get('/:id/pdf-report', async (request, response) => {
       sameSite: 'Lax',
     });
     await page.goto(
-      `${frontendUrl}/project/${projectId}/pdf?hideFeedback=true`,
+      `${frontendUrl}/project/${foundProject._id.toString()}/pdf?hideFeedback=true`,
       {
         waitUntil: 'networkidle0',
       },
