@@ -1,6 +1,6 @@
 import type { Transition } from 'history';
 import { useCallback, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useBlocker } from './useBlocker';
 
 export function useCallbackPrompt(when: boolean): {
