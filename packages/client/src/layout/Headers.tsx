@@ -9,6 +9,7 @@ import DownloadForOfflineOutlinedIcon from '@mui/icons-material/DownloadForOffli
 import Export from '../ui/icons/export.svg?react';
 import Home from '../ui/icons/home.svg?react';
 import Next from '../ui/icons/next.svg?react';
+import ExcelDownload from '../ui/icons/excel-download.svg?react';
 
 import ShareProject from '../project/ShareProject';
 
@@ -313,12 +314,12 @@ const ShareButton = ({ project }: { project: Project }) => {
         </HeaderButton>
       </Tooltip>
 
-      <Tooltip title={'Télécharger le projet'}>
+      <Tooltip title={'Télécharger le projet en Excel'}>
         <HeaderButton onClick={handleDownloadProject}>
           <IconContainer>
-            <DownloadForOfflineOutlinedIcon />
+            <ExcelDownload width={18}/>
           </IconContainer>
-          <p className="h6r">Télécharger</p>
+          <p className="h6r">Télécharger xlsx</p>
           {loading && <CircularProgress sx={{ maxWidth: 20, maxHeight: 20 }} />}
         </HeaderButton>
       </Tooltip>
