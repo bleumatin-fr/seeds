@@ -4,9 +4,9 @@ import {
   Model as ModelType,
   Parameter,
   Result,
-  spreadsheet,
 } from '@arviva/core';
 import xlsx from 'xlsx';
+import spreadsheet from '../spreadsheets/spreadsheet';
 import { flattenParameters } from '../models/publicRoutes';
 
 interface ModelsConfig {

@@ -195,8 +195,8 @@ export const write = async (
 
   const preparedValues = values.map((row) => {
     return row.map((value) => {
-      if (value === null || value === undefined || value === '') {
-        return null;
+      if (value === null) {
+        return '';
       }
       if (Array.isArray(value)) {
         return value.join(',');
@@ -208,7 +208,6 @@ export const write = async (
   try {
     xlsx.utils.sheet_add_aoa(workbook.Sheets[sheet], preparedValues, {
       origin: startingCell,
-      sheetStubs: true,
     });
     xlsx.writeFile(workbook, filePath, { compression: true });
   } catch (e) {

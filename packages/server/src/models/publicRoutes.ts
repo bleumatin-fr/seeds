@@ -4,12 +4,12 @@ import {
   ModelStatus,
   Parameter,
   Sector,
-  spreadsheet,
 } from '@arviva/core';
 import express from 'express';
 
 import { FilterQuery } from 'mongoose';
 import Model from './model';
+import spreadsheet from '../spreadsheets/spreadsheet';
 
 const router = express.Router();
 

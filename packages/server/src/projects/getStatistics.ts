@@ -9,10 +9,10 @@ import {
   Result,
   ScoreCard,
   Sector,
-  spreadsheet,
   Value,
 } from '@arviva/core';
 import { format, isValid, parse, parseISO } from 'date-fns';
+import spreadsheet from '../spreadsheets/spreadsheet';
 import xlsx from 'xlsx';
 
 const uniqueBy = (array: any[], key: string) => {

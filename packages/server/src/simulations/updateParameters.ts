@@ -1,7 +1,6 @@
 import {
   ParameterInput,
   Project as ProjectType,
-  spreadsheet,
 } from '@arviva/core';
 import { format, isValid } from 'date-fns';
 import { intToExcelCol } from 'excel-column-name';
@@ -17,6 +16,7 @@ import {
   refreshParameters,
   refreshResults,
 } from './initSimulation';
+import spreadsheet from '../spreadsheets/spreadsheet';
 
 const convertCellToString = (cell: CellObject): any => {
   if (cell.f) {

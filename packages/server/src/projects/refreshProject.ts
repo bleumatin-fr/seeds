@@ -7,11 +7,11 @@ import {
   Project as ProjectType,
   Result,
   Sector,
-  spreadsheet,
 } from '@arviva/core';
 import { HydratedDocument } from 'mongoose';
 import { getCompletionRate } from './getCompletionRate';
 import getProjectTitle from './getProjectTitle';
+import spreadsheet from '../spreadsheets/spreadsheet';
 
 export const refreshParameters = async (
   project: HydratedDocument<ProjectType>,

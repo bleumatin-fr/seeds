@@ -1,4 +1,4 @@
-import { Configuration, ModelStatus, spreadsheet } from '@arviva/core';
+import { Configuration, ModelStatus } from '@arviva/core';
 import express, { Request } from 'express';
 import sanitize from 'mongo-sanitize';
 import { FilterQuery } from 'mongoose';
@@ -8,6 +8,7 @@ import migrateProject from '../projects/migrateProject';
 import Project from '../projects/model';
 import { updateFileAndProject } from '../spreadsheets/adminRoutes';
 import Model from './model';
+import spreadsheet from '../spreadsheets/spreadsheet';
 
 const router = express.Router();
 const upload = multer();

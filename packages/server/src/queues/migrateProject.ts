@@ -4,7 +4,6 @@ import {
   Parameter,
   ParametersConfiguration,
   Project as ProjectType,
-  spreadsheet,
 } from '@arviva/core';
 import { Job, ProcessCallbackFunction } from 'bull';
 import * as dotenv from 'dotenv-flow';
@@ -14,8 +13,8 @@ import Model from '../models/model';
 import extractParameterChanges from '../projects/extractParameterChanges';
 import Project from '../projects/model';
 import refreshProject from '../projects/refreshProject';
+import spreadsheet from '../spreadsheets/spreadsheet';
 import updateParameters from '../projects/updateParameters';
-
 import fs from 'fs';
 import path from 'path';
 import flattenParameters from '../projects/flattenParameters';

@@ -53,7 +53,3 @@ export type {
 } from './project/types';
 export { ModelStatus } from './project/types';
 export { getReportResults } from './report/getReportResults';
-export type { SpreadsheetType } from './spreadsheet';
-export { spreadsheet };
-
-import spreadsheet from './spreadsheet';

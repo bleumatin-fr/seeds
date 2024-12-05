@@ -2,12 +2,12 @@ import {
   Model,
   ParameterInput,
   Project as ProjectType,
-  spreadsheet,
 } from '@arviva/core';
 import { HydratedDocument } from 'mongoose';
 import Project from './model';
 import { refreshProject } from './refreshProject';
 import updateParameters from './updateParameters';
+import spreadsheet from '../spreadsheets/spreadsheet';
 
 export const createProject = async (
   project: Partial<ProjectType>,

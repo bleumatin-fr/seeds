@@ -1,7 +1,6 @@
 import {
   ParameterInput,
   Project as ProjectType,
-  spreadsheet,
 } from '@arviva/core';
 import { format, isValid } from 'date-fns';
 import { intToExcelCol } from 'excel-column-name';
@@ -19,6 +18,7 @@ import {
   refreshParameters,
   refreshResults,
 } from './refreshProject';
+import spreadsheet from '../spreadsheets/spreadsheet';
 
 const convertCellToString = (cell: CellObject): any => {
   if (cell.f) {
@@ -316,7 +316,7 @@ export const updateParameters = async (
     const [resultsSheetName, range] = config.results.range.split('!');
     if (changedSheetNames.includes(resultsSheetName)) {
       const data = xlsx.utils.sheet_to_json(workbook.Sheets[resultsSheetName], {
-        raw: true,
+        raw: false,
         range,
         // makes it an array of array
         header: 1,
