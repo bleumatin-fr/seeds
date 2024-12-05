@@ -95,8 +95,6 @@ export const migrateProject = async ({
   });
   await connect(process.env.MONGO_URL);
 
-  console.log(`Migrating project ${projectId} to model ${modelId}`);
-
   const foundProject = await Project.findById(projectId);
 
   if (!foundProject) {
@@ -121,8 +119,6 @@ export const migrateProject = async ({
     throw new Error('Model not found');
   }
 
-  console.log(`Found new model ${newModel.name}`);
-
   const parameters = extractParameterChanges(foundProject).filter(
     ({ value }) => {
       if (Array.isArray(value)) {
@@ -136,13 +132,9 @@ export const migrateProject = async ({
   );
 
   await spreadsheet.remove(foundProject.spreadsheetId);
-  console.log(`Removed old spreadsheet ${foundProject.spreadsheetId}`);
-  console.log(`Copying new spreadsheet ${newModel.spreadsheetId}_optimized`);
   const newSpreadsheetId = await spreadsheet.copy(
     `${newModel!.spreadsheetId}_optimized`,
   );
-
-  console.log(`New spreadsheet id: ${newSpreadsheetId}`);
 
   await Project.updateOne(
     { _id: projectId },
