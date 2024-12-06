@@ -231,6 +231,20 @@ const removeComments = (worksheet: xlsx.WorkSheet, cell: string) => {
   }
 };
 
+const searchWithAsteriskRegex = /SEARCH\("(.*\*.*)",/;
+
+const removeAsteriskFromSearch = (worksheet: xlsx.WorkSheet, cell: string) => {
+  if (worksheet[cell].f) {
+    const matches = worksheet[cell].f.match(searchWithAsteriskRegex);
+    if (matches && matches.length > 1) {
+      worksheet[cell].f = worksheet[cell].f.replace(
+        searchWithAsteriskRegex,
+        `SEARCH("${matches[1].replace('*', '')}",`,
+      );
+    }
+  }
+};
+
 const optimizeAndWriteFile = async (
   filePath: string,
   file: ArrayBufferLike,
@@ -250,6 +264,7 @@ const optimizeAndWriteFile = async (
     cells.forEach((cell) => {
       replaceNamedRanges(worksheet, cell, namedRanges);
       removeComments(worksheet, cell);
+      removeAsteriskFromSearch(worksheet, cell);
     });
   });
 
