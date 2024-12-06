@@ -2,7 +2,6 @@ import { Parameter, Value } from '@arviva/core';
 import { Alert, AlertTitle, SelectChangeEvent } from '@mui/material';
 import { ChangeEvent, SyntheticEvent, useCallback } from 'react';
 
-import formatDate from 'date-fns/format';
 import isValid from 'date-fns/isValid';
 import parseDate from 'date-fns/parse';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
@@ -29,10 +28,26 @@ const fixDateType = (value: string) => {
   return value;
 };
 
-const checkDate = (value: any) => {
-  const date = parseDate(value, 'dd/MM/yyyy', new Date());
-  if (isValid(date)) {
-    return formatDate(date, 'yyyy-MM-dd');
+const allowedDateFormats = ['yyyy-MM-dd', 'dd/MM/yyyy'];
+
+export const checkDate = (value: any) => {
+  if (!value) {
+    return null;
+  }
+  if (value instanceof Date) {
+    return value;
+  }
+  if (typeof value === 'string') {
+    for (const format of allowedDateFormats) {
+      const date = parseDate(
+        value.substring(0, Math.min(value.length, format.length)),
+        format,
+        new Date(),
+      );
+      if (isValid(date)) {
+        return date;
+      }
+    }
   }
   return null;
 };
@@ -70,7 +85,6 @@ const ParameterFactory = ({
   onUpdateParameter,
   debounced = false,
 }: ParameterFactoryProps) => {
-
   const focusUsernameInputField = (input: HTMLInputElement) => {
     if (input && autofocus) {
       setTimeout(() => {
@@ -218,6 +232,7 @@ const ParameterFactory = ({
       );
     }
     case 'date': {
+      console.log(parameter.value, checkDate(parameter.value));
       return (
         <DateInput
           defaultValue={

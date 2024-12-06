@@ -4,6 +4,7 @@ import { format, isValid, parseISO } from 'date-fns';
 import { User } from '../../../authentication/context/useUser';
 import { Parameter, Project } from '@arviva/core';
 import { Text } from '../layout';
+import { checkDate } from '../../parameters/Factory';
 
 export const Footer = ({
   project,
@@ -22,8 +23,8 @@ export const Footer = ({
   const previsional = getParameter('Projet_Réalisé');
   const projectName = project.name;
   const structureName = user?.company;
-  const startDate = parseISO(getParameter('Projet_Date_Début') as string);
-  const endDate = parseISO(getParameter('Projet_Date_Fin') as string);
+  const startDate = checkDate(getParameter('Projet_Date_Début') as string);
+  const endDate = checkDate(getParameter('Projet_Date_Fin') as string);
 
   return (
     <Box
