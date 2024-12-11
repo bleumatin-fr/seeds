@@ -285,7 +285,7 @@ router.get('/logout', async (request, response, next) => {
   });
 
   if (token) {
-    await token.remove();
+    await token.deleteOne();
   }
 
   response.clearCookie('refreshToken', COOKIE_OPTIONS);

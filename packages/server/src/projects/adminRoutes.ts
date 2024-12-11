@@ -73,7 +73,7 @@ router.get(
       name: _sort === 'name' ? (_order === 'ASC' ? 1 : -1) : 1,
     };
 
-    const projectsCount = await Project.count(filter);
+    const projectsCount = await Project.countDocuments(filter);
 
     const foundProjects = await Project.find(filter)
       .sort(sort)

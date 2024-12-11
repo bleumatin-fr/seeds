@@ -31,7 +31,7 @@ router.get('/', async (request, response) => {
     filter = { type: { $eq: type } };
   }
 
-  const modelsCount = await Model.count(filter);
+  const modelsCount = await Model.countDocuments(filter);
 
   const foundModels = await Model.find(filter)
     .sort({ [_sort]: _order === 'ASC' ? 1 : -1 })
@@ -41,7 +41,7 @@ router.get('/', async (request, response) => {
 
   const modelsWithProjectCount = await Promise.all(
     foundModels.map(async (model) => {
-      const projectsCount = await Project.count({ 'model._id': model._id });
+      const projectsCount = await Project.countDocuments({ 'model._id': model._id });
       return { ...model, projectsCount };
     }),
   );

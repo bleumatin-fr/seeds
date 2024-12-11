@@ -17,7 +17,7 @@ router.get(
   async (request: Request<{}, {}, {}, RequestQuery>, response) => {
     const { _end, _order, _sort, _start } = request.query;
 
-    const configurationCount = await Configuration.count();
+    const configurationCount = await Configuration.countDocuments();
 
     let sort: { [key: string]: SortOrder } = {
       [_sort]: _order === 'ASC' ? 1 : -1,
@@ -81,7 +81,7 @@ router.delete('/:id', async (request, response) => {
     throw new HttpError(404, 'Not found');
   }
 
-  await foundConfiguration.remove();
+  await foundConfiguration.deleteOne();
 
   response.json(foundConfiguration);
 });

@@ -241,7 +241,7 @@ const removeAsteriskFromSearch = (worksheet: xlsx.WorkSheet, cell: string) => {
     if (matches && matches.length > 1) {
       worksheet[cell].f = worksheet[cell].f.replace(
         searchWithAsteriskRegex,
-        `SEARCH("${matches[1].replace('*', '')}",`,
+        `SEARCH("${matches[1].replaceAll('*', '')}",`,
       );
     }
   }

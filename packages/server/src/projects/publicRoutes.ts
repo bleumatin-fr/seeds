@@ -73,7 +73,7 @@ router.get(
       createdAt: -1,
     });
 
-    const count = await query.clone().count();
+    const count = await query.clone().countDocuments();
     if (request.query.limit) {
       query = query.limit(request.query.limit);
     }

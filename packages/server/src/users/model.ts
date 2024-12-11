@@ -139,7 +139,7 @@ userSchema.pre('save', function (next) {
   next();
 });
 
-userSchema.pre('remove', function (next) {
+userSchema.pre('deleteOne', function (next) {
   optout(this as unknown as UserType);
   next();
 });

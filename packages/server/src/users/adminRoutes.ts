@@ -27,7 +27,7 @@ router.get('/', async (request, response) => {
   const { _end, _order, _sort, _start, id, q } =
     request.query as unknown as RequestQuery;
 
-  const userCount = await User.count();
+  const userCount = await User.countDocuments();
   let filter = {};
 
   if (id && id.length) {
@@ -160,7 +160,7 @@ router.delete('/:id', async (request, response) => {
   if (!foundUser) {
     throw new HttpError(404, 'Not found');
   }
-  await foundUser.remove();
+  await foundUser.deleteOne();
 
   response.json(foundUser);
 });
