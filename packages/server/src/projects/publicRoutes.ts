@@ -340,7 +340,7 @@ router.post('/:id/import', async (request, response) => {
 
   await foundProject.save();
 
-  return response.json(cleanUpProject(foundProject.toObject()));
+  response.json(cleanUpProject(foundProject.toObject()));
 });
 
 router.patch('/share/add/:id', authenticate, async (request, response) => {

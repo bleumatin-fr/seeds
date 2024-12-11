@@ -2,7 +2,7 @@ import { Sector } from '@arviva/core';
 import styled from '@emotion/styled';
 import { Button, Tooltip } from '@mui/material';
 import { useTour } from '@reactour/tour';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useLocation, useParams } from 'react-router-dom';
 
 import MostImpactfulActions from '../actions/card/MostImpactfulActions';

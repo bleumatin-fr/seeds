@@ -1,6 +1,6 @@
 import { Value } from '@arviva/core';
 import styled from '@emotion/styled';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Nav from './Nav';
