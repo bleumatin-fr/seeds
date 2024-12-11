@@ -214,13 +214,15 @@ const replaceNamedRanges = (
   ranges?.forEach((namedRange) => {
     const namedRangeName = namedRange.Name;
     const namedRangeRef = namedRange.Ref;
-
     if (worksheet[cell].f?.includes(namedRangeName)) {
+      let safeNamedRangeRef = namedRangeRef.replaceAll('$', '$$$$');
+      if (/^\[[0-9]+\]/.test(safeNamedRangeRef)) {
+        safeNamedRangeRef = safeNamedRangeRef.replace(/^\[[0-9]+\]/, '');
+      }
       worksheet[cell].f = worksheet[cell].f.replace(
-        new RegExp(`${namedRangeName}`, 'g'),
-        namedRangeRef,
+        new RegExp(`([^a-zA-Z0-9_]|^)${namedRangeName}([^a-zA-Z0-9_]|$)`, 'g'),
+        `$1${safeNamedRangeRef}$2`,
       );
-      // delete worksheet[cell].v; // Remove the value since it will be recalculated
     }
   });
 };
@@ -251,11 +253,12 @@ const optimizeAndWriteFile = async (
 ) => {
   const workbook = xlsx.read(file, { sheetStubs: true });
   const sheetNames = workbook.SheetNames;
-
   const namedRanges =
     workbook?.Workbook?.Names?.filter(
       (namedRange) => !namedRange.Name.startsWith('_'),
-    )?.sort((a, b) => b.Name.length - a.Name.length) || [];
+    )
+      ?.filter(({ Sheet }) => typeof Sheet === 'undefined')
+      .sort((a, b) => b.Name.length - a.Name.length) || [];
 
   sheetNames.forEach((sheetName) => {
     const worksheet = workbook.Sheets[sheetName];

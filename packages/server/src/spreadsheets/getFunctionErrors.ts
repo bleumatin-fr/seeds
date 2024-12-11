@@ -55,6 +55,8 @@ const getFunctionErrors = async (buffer: ArrayBufferLike) => {
 
   const namedExpressions: SerializedNamedExpression[] =
     workbook.Workbook?.Names?.filter((name) => !name.Sheet)
+      .filter(({ Name }) => !Name.startsWith('_'))
+      .filter(({ Sheet }) => typeof Sheet === 'undefined')
       .filter(
         ({ Name }, index, allNames) =>
           allNames.findIndex(({ Name: name }) => name === Name) === index,

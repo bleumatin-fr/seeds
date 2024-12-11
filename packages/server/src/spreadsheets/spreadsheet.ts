@@ -196,7 +196,7 @@ export const write = async (
   const preparedValues = values.map((row) => {
     return row.map((value) => {
       if (value === null || value === undefined || value === '') {
-        return null;
+        return '';
       }
       if (Array.isArray(value)) {
         return value.join(',');
