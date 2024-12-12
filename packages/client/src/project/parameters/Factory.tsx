@@ -30,6 +30,16 @@ const fixDateType = (value: string) => {
 
 const allowedDateFormats = ['yyyy-MM-dd', 'dd/MM/yyyy'];
 
+const excelDateToJSDate = (excelDate: number) => {
+  // Excel epoch starts on January 1, 1900
+  const excelEpoch = new Date(Date.UTC(1899, 11, 30)); // Adjusted for Excel bug
+  // Convert Excel serial date to milliseconds and add to the epoch
+  const jsDate = new Date(
+    excelEpoch.getTime() + excelDate * 24 * 60 * 60 * 1000,
+  );
+  return jsDate;
+};
+
 export const checkDate = (value: any) => {
   if (!value) {
     return null;
@@ -48,6 +58,9 @@ export const checkDate = (value: any) => {
         return date;
       }
     }
+  }
+  if (typeof value === 'number') {
+    return excelDateToJSDate(value);
   }
   return null;
 };
