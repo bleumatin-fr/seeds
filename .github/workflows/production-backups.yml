@@ -32,7 +32,7 @@ jobs:
           AWS_ACCESS_KEY_ID=${{ secrets.PRODUCTION_AWS_ACCESS_KEY }} \
           AWS_SECRET_ACCESS_KEY=${{ secrets.PRODUCTION_AWS_SECRET_KEY }} \
           aws s3 cp \
-            ./backups/$datetime/spreadsheets.tar.gz \
+            ./backups/$datetime \
             ${{ secrets.PRODUCTION_BACKUP_REPOSITORY }}
 
           rm -R ./backups/$datetime
