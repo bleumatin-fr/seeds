@@ -1,0 +1,45 @@
+name: Production backup
+on:
+  workflow_dispatch: # Manual trigger from the repository "Actions" tab
+  schedule:
+    - cron: '0 4 * * *'
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Backup
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.PRODUCTION_SERVER_HOST }}
+        username: ${{ secrets.PRODUCTION_SERVER_USERNAME }}
+        key: ${{ secrets.PRODUCTION_SERVER_KEY }}
+        script: |
+          datetime=$(date +"%Y-%m-%dT%H:%M:%S")
+
+          cd /seeds
+
+          mkdir -p ./backups/$datetime
+
+          docker compose \
+            exec seeds_mongo \
+            mongodump "${{ secrets.PRODUCTION_MONGODB_URI }}" --archive=/data/backup/db.mongodump
+
+          docker compose \
+            cp seeds_mongo:/data/backup/db.mongodump ./backups/$datetime/
+
+          tar -czf ./backups/$datetime/spreadsheets.tar.gz spreadsheets
+
+          AWS_ACCESS_KEY_ID=${{ secrets.PRODUCTION_AWS_ACCESS_KEY }} \
+          AWS_SECRET_ACCESS_KEY=${{ secrets.PRODUCTION_AWS_SECRET_KEY }} \
+          aws s3 cp \
+            ./backups/$datetime/spreadsheets.tar.gz \
+            ${{ secrets.PRODUCTION_BACKUP_REPOSITORY }}
+
+          rm -R ./backups/$datetime
+    - name: Failure notification
+      if: ${{ failure() }}
+      uses: Ilshidur/action-discord@master
+      env:
+        DISCORD_WEBHOOK: ${{ secrets.PRODUCTION_DISCORD_MONITORING_WEBHOOK }}
+      with:
+        args: 'The MongoDB backup has failed for CooProg Production'
