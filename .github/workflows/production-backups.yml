@@ -22,10 +22,10 @@ jobs:
 
           docker compose \
             exec seeds_mongo \
-            mongodump "${{ secrets.PRODUCTION_MONGODB_URI }}" --archive=/data/backup/db.mongodump
+            mongodump "${{ secrets.PRODUCTION_MONGODB_URI }}" --archive=/db.mongodump
 
           docker compose \
-            cp seeds_mongo:/data/backup/db.mongodump ./backups/$datetime/
+            cp seeds_mongo:/db.mongodump ./backups/$datetime/
 
           tar -czf ./backups/$datetime/spreadsheets.tar.gz spreadsheets
 
