@@ -33,7 +33,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY=${{ secrets.PRODUCTION_AWS_SECRET_KEY }} \
           aws s3 cp \
             ./backups/$datetime \
-            ${{ secrets.PRODUCTION_BACKUP_REPOSITORY }}
+            ${{ secrets.PRODUCTION_BACKUP_REPOSITORY }}/$datetime --recursive
 
           rm -R ./backups/$datetime
     - name: Failure notification
