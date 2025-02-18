@@ -298,9 +298,11 @@ const Projects = () => {
     setDeleteProjectId(null); // Reset delete building id
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (deleteProjectId !== null) {
-      setProjects(projects.filter((b) => b.id !== deleteProjectId));
+      const newProjects = projects.filter((b) => b.id !== deleteProjectId);
+      setProjects(newProjects);
+      await updateProjects(newProjects);
       handleCloseDeleteDialog();
     }
   };

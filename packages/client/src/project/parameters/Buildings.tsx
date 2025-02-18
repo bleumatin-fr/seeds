@@ -277,11 +277,13 @@ const Buildings = () => {
     setDeleteBuildingId(null); // Reset delete building id
   };
 
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (deleteBuildingId !== null) {
-      setBuildings(buildings.filter((b) => b.id !== deleteBuildingId));
+      const newBuildings = buildings.filter((b) => b.id !== deleteBuildingId);
+      setBuildings(newBuildings);
+      await updateBuildings(newBuildings);
       handleCloseDeleteDialog();
-    }
+  }
   };
 
   const indicator: Indicator = {
@@ -346,7 +348,6 @@ const Buildings = () => {
             >
               Ajouter une salle
             </Button>
-            z
           </NoBuildings>
         ))}
       <Container>
