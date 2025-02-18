@@ -72,6 +72,8 @@ connect().then(async ({ connection }) => {
 
 const app: Application = express();
 
+app.set('trust proxy', 1);
+
 Sentry.init({
   dsn: process.env.SENTRY_DSN,
   integrations: [new Sentry.Integrations.Http({ tracing: true })],
