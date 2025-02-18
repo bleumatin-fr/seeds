@@ -316,14 +316,20 @@ router.post('/:spreadsheetId/track', async (req, res) => {
     switch (req.body.status) {
       case DocumentStatus.Save: {
         const { url } = req.body;
+        const newUrl = url.replace(
+          process.env.ADMIN_DOCUMENTSERVER_URL,
+          process.env.PROXY_DOCUMENT_SERVER_URL,
+        );
         const urlObject = new URL(url);
         console.log(
           'SAVE',
           url,
           `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
+          newUrl,
         );
         const response = await fetch(
-          `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
+          newUrl
+          // `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
         );
 
         if (!response.ok) {
@@ -337,14 +343,20 @@ router.post('/:spreadsheetId/track', async (req, res) => {
       }
       case DocumentStatus.ForceSave: {
         const { url } = req.body;
+        const newUrl = url.replace(
+          process.env.ADMIN_DOCUMENTSERVER_URL,
+          process.env.PROXY_DOCUMENT_SERVER_URL,
+        );
         const urlObject = new URL(url);
         console.log(
           'FSAVE',
           url,
           `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
+          newUrl,
         );
         const response = await fetch(
-          `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
+          newUrl,
+          // `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
         );
 
         if (!response.ok) {
