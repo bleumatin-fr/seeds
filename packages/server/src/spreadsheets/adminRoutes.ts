@@ -312,34 +312,57 @@ export const updateFileAndProject = async (
 router.post('/:spreadsheetId/track', async (req, res) => {
   const { spreadsheetId } = req.params;
 
-  switch (req.body.status) {
-    case DocumentStatus.Save: {
-      const { url } = req.body;
-      const urlObject = new URL(url);
-      const response = await fetch(
-        `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
-      );
+  try {
+    switch (req.body.status) {
+      case DocumentStatus.Save: {
+        const { url } = req.body;
+        const urlObject = new URL(url);
+        console.log(
+          'SAVE',
+          url,
+          `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
+        );
+        const response = await fetch(
+          `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
+        );
 
-      updateFileAndProject(spreadsheetId, await response.arrayBuffer());
+        if (!response.ok) {
+          throw new Error('Error on save');
+        }
 
-      break;
+        updateFileAndProject(spreadsheetId, await response.arrayBuffer());
+
+        break;
+      }
+      case DocumentStatus.ForceSave: {
+        const { url } = req.body;
+        const urlObject = new URL(url);
+        console.log(
+          'FSAVE',
+          url,
+          `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
+        );
+        const response = await fetch(
+          `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
+        );
+
+        if (!response.ok) {
+          throw new Error('Error on force save');
+        }
+
+        updateFileAndProject(spreadsheetId, await response.arrayBuffer());
+
+        break;
+      }
+      default:
+        break;
     }
-    case DocumentStatus.ForceSave: {
-      const { url } = req.body;
-      const urlObject = new URL(url);
-      const response = await fetch(
-        `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
-      );
 
-      updateFileAndProject(spreadsheetId, await response.arrayBuffer());
-
-      break;
-    }
-    default:
-      break;
+    res.json({ error: 0 });
+  } catch (e) {
+    console.error(e);
+    res.json({ error: 1 });
   }
-
-  res.json({ error: 0 });
 });
 
 export default router;
