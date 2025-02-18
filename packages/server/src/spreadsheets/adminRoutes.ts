@@ -320,21 +320,13 @@ router.post('/:spreadsheetId/track', async (req, res) => {
           process.env.ADMIN_DOCUMENTSERVER_URL,
           process.env.PROXY_DOCUMENT_SERVER_URL,
         );
-        const urlObject = new URL(url);
-        console.log(
-          'SAVE',
-          url,
-          `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
-          newUrl,
-        );
         const response = await fetch(
           newUrl
-          // `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
         );
 
         if (!response.ok) {
-          console.error(await (response.text()));
-          throw new Error('Error on save');
+          const error = await (response.text());
+          throw new Error('Error on save : ' + error);
         }
 
         updateFileAndProject(spreadsheetId, await response.arrayBuffer());
@@ -347,21 +339,13 @@ router.post('/:spreadsheetId/track', async (req, res) => {
           process.env.ADMIN_DOCUMENTSERVER_URL,
           process.env.PROXY_DOCUMENT_SERVER_URL,
         );
-        const urlObject = new URL(url);
-        console.log(
-          'FSAVE',
-          url,
-          `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
-          newUrl,
-        );
         const response = await fetch(
           newUrl,
-          // `${process.env.PROXY_DOCUMENT_SERVER_URL}${urlObject.pathname}${urlObject.search}`,
         );
 
         if (!response.ok) {
-          console.error(await (response.text()));
-          throw new Error('Error on force save');
+          const error = await (response.text());
+          throw new Error('Error on save : ' + error);
         }
 
         updateFileAndProject(spreadsheetId, await response.arrayBuffer());
