@@ -327,6 +327,7 @@ router.post('/:spreadsheetId/track', async (req, res) => {
         );
 
         if (!response.ok) {
+          console.error(response.body);
           throw new Error('Error on save');
         }
 
@@ -347,6 +348,7 @@ router.post('/:spreadsheetId/track', async (req, res) => {
         );
 
         if (!response.ok) {
+          console.error(response.body);
           throw new Error('Error on force save');
         }
 
