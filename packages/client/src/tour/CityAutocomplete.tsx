@@ -38,11 +38,11 @@ const CityAutocomplete = ({
   const [value, setValue] = useState<Option | null>(
     defaultValue
       ? {
-          label: defaultValue.name,
-          shortLabel: defaultValue.name,
-          id: '',
-          country: defaultValue.country || '',
-        }
+        label: defaultValue.name,
+        shortLabel: defaultValue.name,
+        id: '',
+        country: defaultValue.country || '',
+      }
       : null,
   );
   const [, setDebouncedValue] = useDebounceValue(value, 1000);
@@ -73,13 +73,13 @@ const CityAutocomplete = ({
   }, 500);
 
   useEffect(() => {
-    if (inputValue === '') {
+    if (inputValue === '' || inputValue === value?.label) {
       setOptions(value ? [value] : []);
       return;
     }
 
     updateOptions(inputValue);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value, inputValue]);
 
   const handleAutocompleteChange = async (
