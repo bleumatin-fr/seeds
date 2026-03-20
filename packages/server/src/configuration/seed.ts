@@ -50,7 +50,7 @@ const defaultConfigurations = [
   },
   {
     name: 'buildings.emptyMessage',
-    value: `<h1 style="text-align: center">Bienvenue sur l'assistant de gestion des salles de votre projet</h1><p style="text-align: center">Novitates autem si spem adferunt, ut tamquam in herbis non fallacibus fructus appareat, non sunt illae quidem repudiandae, vetustas tamen suo loco conservanda; maxima est enim vis vetustatis et consuetudinis. Quin in ipso equo, cuius modo feci.</p><p style="text-align: center"><strong>Commencez dès maintenant</strong></p>`,
+    value: `<h1 style="text-align: center">Bienvenue sur l'assistant de gestion des salles de votre projet</h1><br/><p style="text-align: center"><strong>Commencez dès maintenant</strong></p>`,
   },
   {
     name: 'buildings.addMessage',
@@ -74,9 +74,6 @@ const seed = async () => {
         await new Configuration(config).save();
         return;
       }
-
-      configuration.value = config.value;
-      await configuration.save();
     }),
   );
 
