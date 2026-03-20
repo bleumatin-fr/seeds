@@ -245,7 +245,6 @@ const ParameterFactory = ({
       );
     }
     case 'date': {
-      console.log(parameter.value, checkDate(parameter.value));
       return (
         <DateInput
           defaultValue={
