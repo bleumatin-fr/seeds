@@ -11,36 +11,43 @@ type ExpandedAddon = {
 
 export type TourState = Tour & ExpandedAddon;
 
+const createDefaultEvent = (order = 0): TourEvent => ({
+  id: uuidv4(),
+  order,
+  name: '',
+  numberOfSeats: 0,
+});
+
+const createStep = (order: number): Step => ({
+  id: uuidv4(),
+  order,
+  events: [createDefaultEvent(0)],
+  travels: [],
+});
+
 export const initialState: TourState = {
   expanded: { index: 1, type: 'location' },
-  steps: [
-    {
-      id: uuidv4(),
-      order: 0,
-      events: [
-        {
-          id: uuidv4(),
-          order: 0,
-          name: '',
-          numberOfSeats: 0,
-        },
-      ],
-      travels: [],
-    },
-    {
-      id: uuidv4(),
-      order: 1,
-      events: [
-        {
-          id: uuidv4(),
-          order: 0,
-          name: '',
-          numberOfSeats: 0,
-        },
-      ],
-      travels: [],
-    },
-  ],
+  steps: [createStep(0), createStep(1)],
+};
+
+export const normalizeTourState = (state: TourState): TourState => {
+  const steps = [...state.steps].sort((a, b) => a.order - b.order);
+
+  if (steps.length >= 2) {
+    return { ...state, steps };
+  }
+
+  if (steps.length === 1) {
+    return {
+      ...state,
+      steps: [steps[0], createStep(steps[0].order + 1)],
+    };
+  }
+
+  return {
+    ...state,
+    steps: [createStep(0), createStep(1)],
+  };
 };
 
 const defaultEvent: Partial<TourEvent> = {
@@ -92,7 +99,6 @@ export const reducer = (state: TourState, action: TourAction) => {
   switch (type) {
     case TourActionType.ADD_STEP: {
       const { afterStepId } = payload;
-
       let order;
       if (afterStepId) {
         let afterStep = state.steps.find(hasId(afterStepId));
@@ -119,9 +125,18 @@ export const reducer = (state: TourState, action: TourAction) => {
     }
     case TourActionType.REMOVE_STEP: {
       const { stepId } = payload;
+      const newSteps = state.steps.filter(notHasId(stepId));
+
+      if (newSteps.length === 1) {
+        return {
+          ...state,
+          steps: [...newSteps, createStep(newSteps[0].order + 1)],
+        };
+      }
+
       return {
         ...state,
-        steps: state.steps.filter(notHasId(stepId)),
+        steps: newSteps,
       };
     }
     case TourActionType.UPDATE_STEP: {

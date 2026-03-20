@@ -6,7 +6,13 @@ import {
   useReducer,
 } from 'react';
 
-import { initialState, reducer, TourActionType, TourState } from './reducer';
+import {
+  initialState,
+  normalizeTourState,
+  reducer,
+  TourActionType,
+  TourState,
+} from './reducer';
 import { Step, Tour, TourEvent, Travel, TravelLoad, TravelType } from './types';
 
 interface TourContextType {
@@ -55,7 +61,10 @@ export const Provider = ({
   value?: TourState;
   onChange?: (tour: Tour) => void;
 }) => {
-  const [state, dispatch] = useReducer(reducer, value || initialState);
+  const [state, dispatch] = useReducer(
+    reducer,
+    value ? normalizeTourState(value) : initialState,
+  );
 
   useEffect(() => {
     onChange && onChange(state);
