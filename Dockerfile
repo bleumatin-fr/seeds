@@ -1,5 +1,5 @@
 # FROM node:18.18.2 AS build
-FROM node:20.9.0 AS build
+FROM node:20.20.2 AS build
 ENV YARN_VERSION 1.22.19
 ENV NODE_ENV=development
 
