@@ -348,9 +348,6 @@ export const getStatisticsSpreadsheet = async (
     '_id',
   );
 
-  console.log('models', models);
-  console.log('models length', models.length);
-
   const statSpreadSheetId = await spreadsheet.create();
   if (!statSpreadSheetId) {
     throw new Error('Unable to create a new spreadsheet');
@@ -365,7 +362,7 @@ export const getStatisticsSpreadsheet = async (
       continue;
     }
 
-    const sheetName = model.name;
+    const sheetName = `${model.name}_${model.versionNumber}`;
 
     await spreadsheet.createSheets(statSpreadSheetId, [sheetName]);
 
