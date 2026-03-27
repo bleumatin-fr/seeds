@@ -15,17 +15,6 @@ import { format, isValid, parse, parseISO } from 'date-fns';
 import spreadsheet from '../spreadsheets/spreadsheet';
 import xlsx from 'xlsx';
 
-const uniqueBy = (array: any[], key: string) => {
-  return array.filter((item, index, self) => {
-    return (
-      index ===
-      self.findIndex((t) => {
-        return t[key].toString() === item[key].toString();
-      })
-    );
-  });
-};
-
 const keyify = (key: string) =>
   (key || '')
     .replace(/\s/g, '_')
@@ -339,30 +328,86 @@ const transposeArray = (matrix: any[][]) => {
   return matrix[0].map((col, i) => matrix.map((row) => row[i]));
 };
 
+const EXCEL_SHEET_NAME_MAX_LENGTH = 31;
+const EXCEL_SHEET_INVALID_CHARS_REGEX = /[\\/?*\[\]:]/g;
+
+const toValidSheetBaseName = (name: string) => {
+  const sanitized = (name || '')
+    .replace(EXCEL_SHEET_INVALID_CHARS_REGEX, '_')
+    .trim();
+  return sanitized || 'Sheet';
+};
+
+const getUniqueSheetName = (baseName: string, usedNames: Set<string>) => {
+  const trimmedBase = baseName.slice(0, EXCEL_SHEET_NAME_MAX_LENGTH);
+  if (!usedNames.has(trimmedBase)) {
+    usedNames.add(trimmedBase);
+    return trimmedBase;
+  }
+
+  let counter = 2;
+  while (true) {
+    const suffix = `_${counter}`;
+    const maxBaseLength = EXCEL_SHEET_NAME_MAX_LENGTH - suffix.length;
+    const candidate = `${baseName.slice(0, maxBaseLength)}${suffix}`;
+    if (!usedNames.has(candidate)) {
+      usedNames.add(candidate);
+      return candidate;
+    }
+    counter += 1;
+  }
+};
+
 export const getStatisticsSpreadsheet = async (
   projects: Project[],
   transpose: boolean = false,
 ) => {
-  const models = uniqueBy(
-    projects.map((project: Project) => project.model),
-    '_id',
-  );
+  const groupedProjectsByModel = projects.reduce((groups, project) => {
+    const modelName = project.model?.name || 'Model';
+    const modelVersionNumber = project.model?.versionNumber || 0;
+    const key = `${modelName}__${modelVersionNumber}`;
+
+    const existingGroup = groups.get(key);
+    if (existingGroup) {
+      existingGroup.projects.push(project);
+      return groups;
+    }
+
+    groups.set(key, {
+      modelName,
+      modelVersionNumber,
+      projects: [project],
+    });
+
+    return groups;
+  }, new Map<
+    string,
+    {
+      modelName: string;
+      modelVersionNumber: number;
+      projects: Project[];
+    }
+  >());
 
   const statSpreadSheetId = await spreadsheet.create();
   if (!statSpreadSheetId) {
     throw new Error('Unable to create a new spreadsheet');
   }
 
-  for (const model of models) {
-    const projectsOfModel = projects.filter(
-      (project) => project.model._id.toString() === model._id.toString(),
-    );
+  const usedSheetNames = new Set<string>();
+
+  for (const groupedProject of groupedProjectsByModel.values()) {
+    const projectsOfModel = groupedProject.projects;
 
     if (projectsOfModel.length === 0) {
       continue;
     }
 
-    const sheetName = `${model.name}_${model.versionNumber}`;
+    const rawSheetName = `${groupedProject.modelName}_${groupedProject.modelVersionNumber}`;
+    const sheetName = getUniqueSheetName(
+      toValidSheetBaseName(rawSheetName),
+      usedSheetNames,
+    );
 
     await spreadsheet.createSheets(statSpreadSheetId, [sheetName]);
 
