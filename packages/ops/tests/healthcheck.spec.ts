@@ -28,6 +28,19 @@ async function dismissBlockingModals(page: Page) {
     await optinDismiss.click();
     await expect(optinDismiss).toBeHidden();
   }
+
+  // Skipping welcome sets onboarding collapsed, which auto-opens #user-menu
+  // (see UserMenu.tsx) and its backdrop blocks dashboard clicks.
+  const userMenu = page.locator('#user-menu');
+  try {
+    await userMenu.waitFor({ state: 'visible', timeout: 5000 });
+  } catch {
+    // Menu did not auto-open (onboarding already completed).
+  }
+  if (await userMenu.isVisible()) {
+    await page.keyboard.press('Escape');
+    await expect(userMenu).toBeHidden();
+  }
 }
 
 test('it can reach SEEDS staging and perform basic actions', async ({ page }) => {  await page.goto(URL);
