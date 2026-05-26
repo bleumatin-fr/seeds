@@ -84,6 +84,7 @@ const Login = () => {
             onChange={(event) => setEmail(event.target.value)}
             disabled={loading}
             fullWidth
+            inputProps={{ 'data-testid': 'login-email' }}
           ></TextField>
           <TextField
             type="password"
@@ -92,12 +93,14 @@ const Login = () => {
             onChange={(event) => setPassword(event.target.value)}
             disabled={loading}
             fullWidth
+            inputProps={{ 'data-testid': 'login-password' }}
           ></TextField>
           <LoadingButton
             type="submit"
             loading={loading}
             color="primary"
             disabled={loading}
+            data-testid="login-submit"
           >
             S'authentifier
           </LoadingButton>

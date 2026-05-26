@@ -317,6 +317,7 @@ const Home = () => {
             <Button
               variant="contained"
               onClick={() => navigate(`/authentication/login`)}
+              data-testid="authentication-login-link"
             >
               Se connecter
             </Button>

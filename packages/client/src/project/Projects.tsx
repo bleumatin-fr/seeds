@@ -385,7 +385,11 @@ const EmptyBlock = ({
       </BlockHeader>
       <EmptyBlockContent color={color}>
         {models.map((model) => (
-          <div onClick={() => onNewProject(model)} key={model}>
+          <div
+            onClick={() => onNewProject(model)}
+            key={model}
+            data-testid={`dashboard-create-${model}`}
+          >
             <ProjectIllustration type={model} />
             <NewProjectButtonDashboard model={model} />
             <p className="hxr">

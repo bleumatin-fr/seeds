@@ -110,7 +110,13 @@ const CreateProjectModal = ({
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} scroll="paper" id="create_modal">
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      scroll="paper"
+      id="create_modal"
+      data-testid={`create-project-modal-${model.type}`}
+    >
       <form onSubmit={handleFormSubmit}>
         <DialogTitle id="scroll-dialog-title">
           Création {model.singularName?.toLowerCase()}
@@ -145,7 +151,9 @@ const CreateProjectModal = ({
         <DialogActions
           sx={{ position: 'sticky', bottom: 0, background: 'white' }}
         >
-          <Button onClick={handleCancel}>Annuler</Button>
+          <Button onClick={handleCancel} data-testid="create-project-cancel">
+            Annuler
+          </Button>
           <Button type="submit" variant="contained" color="primary">
             Créer le {model.singularName?.toLowerCase()}
           </Button>

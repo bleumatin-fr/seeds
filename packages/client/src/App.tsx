@@ -86,6 +86,7 @@ function App() {
           flipButtons
           enableDeclineButton
           location="bottom"
+          buttonId="cookie-consent-accept"
           buttonText="Autoriser et fermer"
           declineButtonText="Refuser"
           expires={150}
