@@ -1,5 +1,4 @@
 import * as Sentry from '@sentry/react';
-import { BrowserTracing } from '@sentry/tracing';
 import { SnackbarProvider } from 'notistack';
 import { useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
@@ -45,6 +44,23 @@ import Results from './results/Results';
 import { SimulatorForm } from './simulator/Simulator';
 import theme from './theme';
 
+let sentryInitialized = false;
+
+function initSentry() {
+  const dsn = import.meta.env.VITE_SENTRY_DSN;
+  if (!dsn || sentryInitialized) {
+    return;
+  }
+  sentryInitialized = true;
+
+  Sentry.init({
+    dsn,
+    environment: import.meta.env.MODE,
+    integrations: [Sentry.browserTracingIntegration()],
+    tracesSampleRate: import.meta.env.PROD ? 0.2 : 1.0,
+  });
+}
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -66,15 +82,6 @@ function App() {
     }
   }, []);
 
-  const initSentry = () => {
-    if (import.meta.env.VITE_SENTRY_DSN) {
-      Sentry.init({
-        dsn: import.meta.env.VITE_SENTRY_DSN,
-        integrations: [new BrowserTracing()],
-        tracesSampleRate: 1.0,
-      });
-    }
-  };
   const handleAccept = () => {
     initSentry();
   };

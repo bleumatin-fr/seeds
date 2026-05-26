@@ -3,7 +3,7 @@
 import * as dotenv from 'dotenv-flow';
 dotenv.config();
 
-import * as Sentry from '@sentry/node';
+import { initSentry, Sentry } from './monitoring/sentry';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -74,11 +74,7 @@ const app: Application = express();
 
 app.set('trust proxy', 1);
 
-Sentry.init({
-  dsn: process.env.SENTRY_DSN,
-  integrations: [new Sentry.Integrations.Http({ tracing: true })],
-  tracesSampleRate: 1.0,
-});
+initSentry();
 app.use(Sentry.Handlers.requestHandler());
 
 const limiter = rateLimit({
