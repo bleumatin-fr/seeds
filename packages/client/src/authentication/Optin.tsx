@@ -140,7 +140,7 @@ const OptinModal = () => {
           <Container>{!!error && <Block accent>{`${error}`}</Block>}</Container>
         </DialogContent>
         <DialogActions style={{ justifyContent: 'flex-start' }}>
-          <LoadingButton onClick={onCancel} type="button">
+          <LoadingButton onClick={onCancel} type="button" data-testid="optin-dismiss">
             Pas pour l'instant
           </LoadingButton>
           <LoadingButton

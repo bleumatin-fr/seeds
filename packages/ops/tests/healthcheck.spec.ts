@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, Page, test } from '@playwright/test';
 
 const URL = process.env.URL as string;
 const EMAIL = process.env.EMAIL as string;
@@ -6,8 +6,31 @@ const PASSWORD = process.env.PASSWORD as string;
 
 const PROJECT_MODELS = ['building', 'operation', 'project'] as const;
 
-test('it can reach SEEDS staging and perform basic actions', async ({ page }) => {
-  await page.goto(URL);
+/** Closes onboarding / newsletter modals that block the dashboard. */
+async function dismissBlockingModals(page: Page) {
+  const welcomeSkip = page
+    .getByTestId('onboarding-welcome-skip')
+    .or(page.getByRole('link', { name: 'Je connais déjà, passer' }));
+
+  try {
+    await welcomeSkip.waitFor({ state: 'visible', timeout: 10_000 });
+    await welcomeSkip.click();
+    await expect(welcomeSkip).toBeHidden();
+  } catch {
+    // Onboarding already completed for this account/session.
+  }
+
+  const optinDismiss = page
+    .getByTestId('optin-dismiss')
+    .or(page.getByRole('button', { name: "Pas pour l'instant" }));
+
+  if (await optinDismiss.isVisible()) {
+    await optinDismiss.click();
+    await expect(optinDismiss).toBeHidden();
+  }
+}
+
+test('it can reach SEEDS staging and perform basic actions', async ({ page }) => {  await page.goto(URL);
   await page.waitForURL(`${URL}/authentication`);
 
   await page.waitForLoadState('networkidle');
@@ -24,6 +47,8 @@ test('it can reach SEEDS staging and perform basic actions', async ({ page }) =>
   await page.getByTestId('login-submit').click();
   await page.waitForURL(URL);
   await page.waitForLoadState('networkidle');
+  await dismissBlockingModals(page);
+  await expect(page.getByTestId('dashboard-create-building')).toBeVisible();
 
   for (const model of PROJECT_MODELS) {
     await page.getByTestId(`dashboard-create-${model}`).click();

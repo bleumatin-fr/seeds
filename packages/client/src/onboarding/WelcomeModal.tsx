@@ -84,6 +84,7 @@ const WelcomeModal = ({ open, onConfirm, onCancel }: WelcomeModalProps) => {
             </Button>
             <Link
               href="/"
+              data-testid="onboarding-welcome-skip"
               onClick={(event) => {
                 event.preventDefault();
                 onCancel();
