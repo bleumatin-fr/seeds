@@ -7,7 +7,7 @@ RUN apt-get update
 ADD . /tmp/build
 WORKDIR /tmp/build
 RUN yarn clean
-RUN yarn global add node-gyp
+RUN yarn global add node-gyp@10.2.0
 RUN yarn install --frozen-lockfile
 ENV NODE_ENV=production
 RUN yarn build
