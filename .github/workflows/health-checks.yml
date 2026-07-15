@@ -50,9 +50,13 @@ jobs:
             [View workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
       - name: Email failure notification
         if: ${{ failure() }}
-        uses: dawidd6/action-send-mail@v3
+        uses: dawidd6/action-send-mail@v17
         with:
-          connection_url: ${{ secrets.HEALTH_CHECK_SMTP_CONNECTION }}
+          server_address: mail.infomaniak.ch
+          server_port: 465
+          secure: true
+          username: ${{ secrets.HEALTH_CHECK_SMTP_USERNAME }}
+          password: ${{ secrets.HEALTH_CHECK_SMTP_PASSWORD }}
           subject: 'SEEDS Staging health check failed'
           to: ${{ secrets.HEALTH_CHECK_NOTIFICATION_EMAILS }}
           from: ${{ secrets.HEALTH_CHECK_SMTP_FROM }}
