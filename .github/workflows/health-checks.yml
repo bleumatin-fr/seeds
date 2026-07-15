@@ -2,6 +2,11 @@ name: Staging health checks
 
 on:
   workflow_dispatch:
+    inputs:
+      test_notifications:
+        description: 'Force failure to test Discord, Framateam and email notifications'
+        type: boolean
+        default: false
   schedule:
     - cron: '0 * * * *'
 
@@ -10,6 +15,9 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
+      - name: Force failure (notification test)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.test_notifications }}
+        run: exit 1
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
@@ -40,3 +48,15 @@ jobs:
           TEXT: |
             :warning: The Health Check has failed for SEEDS Staging
             [View workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+      - name: Email failure notification
+        if: ${{ failure() }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          connection_url: ${{ secrets.HEALTH_CHECK_SMTP_CONNECTION }}
+          subject: 'SEEDS Staging health check failed'
+          to: ${{ secrets.HEALTH_CHECK_NOTIFICATION_EMAILS }}
+          from: ${{ secrets.HEALTH_CHECK_SMTP_FROM }}
+          body: |
+            The Health Check has failed for SEEDS Staging.
+
+            View workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
