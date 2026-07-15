@@ -12,6 +12,7 @@ import 'express-async-errors';
 import boolParser from 'express-query-boolean';
 import { rateLimit } from 'express-rate-limit';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import MailDev from 'maildev';
 import {
   authenticate,
   checkIsDocumentServer,
@@ -104,6 +105,27 @@ if (process.env.PROXY_DOCUMENT_SERVER_URL) {
         'X-Forwarded-Host': `${process.env.PROXY_HOSTNAME}/docs`,
         'X-Forwarded-Proto': 'https',
       },
+    }),
+  );
+}
+
+if (process.env.MAILDEV_ENABLED?.toLowerCase() === 'true') {
+  const maildev = new MailDev({
+    basePathname: '/mail',
+  } as any);
+
+  maildev.listen((err: Error | null) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+  });
+
+  app.use(
+    '/mail',
+    createProxyMiddleware('/mail', {
+      target: `http://localhost:1080/`,
+      ws: true,
     }),
   );
 }
