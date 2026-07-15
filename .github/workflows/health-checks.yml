@@ -32,3 +32,11 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_WEBHOOK }}
         with:
           args: 'The Health Check has failed for SEEDS Staging'
+      - name: Framateam failure notification
+        if: ${{ failure() }}
+        uses: mattermost/action-mattermost-notify@master
+        with:
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.FRAMATEAM_MONITORING_WEBHOOK }}
+          TEXT: |
+            :warning: The Health Check has failed for SEEDS Staging
+            [View workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
