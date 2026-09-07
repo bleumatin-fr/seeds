@@ -43,7 +43,10 @@ async function dismissBlockingModals(page: Page) {
   }
 }
 
-test('it can reach SEEDS staging and perform basic actions', async ({ page }) => {  await page.goto(URL);
+test('it can reach SEEDS staging and perform basic actions', async ({
+  page,
+}) => {
+  await page.goto(URL);
   await page.waitForURL(`${URL}/authentication`);
 
   await page.waitForLoadState('networkidle');

@@ -1,0 +1,70 @@
+name: Production health checks
+
+# Targets the production app currently deployed from e0c5012 (v2.0.20).
+# Selectors in healthcheck.production.spec.ts must match that UI (no data-testid).
+# Update the production spec when production is redeployed to a newer commit.
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_notifications:
+        description: 'Force failure to test Discord, Framateam and email notifications'
+        type: boolean
+        default: false
+  schedule:
+    - cron: '30 * * * *'
+
+jobs:
+  healthcheck:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Force failure (notification test)
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.test_notifications }}
+        run: exit 1
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps
+      - name: Run health check
+        run: yarn workspace ops test tests/healthcheck.production.spec.ts
+        env:
+          URL: https://seeds.arviva.org
+          EMAIL: prod@bleumatin.fr
+          PASSWORD: ${{ secrets.PRODUCTION_HEALTH_CHECK_PASSWORD }}
+      - name: Failure notification
+        if: ${{ failure() }}
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_WEBHOOK }}
+        with:
+          args: 'The Health Check has failed for SEEDS Production'
+      - name: Framateam failure notification
+        if: ${{ failure() }}
+        uses: mattermost/action-mattermost-notify@master
+        with:
+          MATTERMOST_WEBHOOK_URL: ${{ secrets.FRAMATEAM_MONITORING_WEBHOOK }}
+          TEXT: |
+            :warning: The Health Check has failed for SEEDS Production
+            [View workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+      - name: Email failure notification
+        if: ${{ failure() }}
+        uses: dawidd6/action-send-mail@v17
+        with:
+          server_address: mail.infomaniak.ch
+          server_port: 465
+          secure: true
+          username: ${{ secrets.HEALTH_CHECK_SMTP_USERNAME }}
+          password: ${{ secrets.HEALTH_CHECK_SMTP_PASSWORD }}
+          subject: 'SEEDS Production health check failed'
+          to: ${{ secrets.HEALTH_CHECK_NOTIFICATION_EMAILS }}
+          from: ${{ secrets.HEALTH_CHECK_SMTP_FROM }}
+          body: |
+            The Health Check has failed for SEEDS Production.
+
+            View workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

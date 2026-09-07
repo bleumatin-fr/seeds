@@ -28,7 +28,7 @@ jobs:
       - name: Install Playwright browser
         run: npx playwright install --with-deps
       - name: Run health check
-        run: yarn workspace ops test
+        run: yarn workspace ops test tests/healthcheck.staging.spec.ts
         env:
           URL: https://seeds.bleumatin.fr
           EMAIL: prod@bleumatin.fr
