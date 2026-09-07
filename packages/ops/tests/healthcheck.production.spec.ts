@@ -58,10 +58,11 @@ test('it can reach SEEDS production and perform basic actions', async ({
   await page.waitForURL(`${URL}/authentication`);
 
   await page.waitForLoadState('networkidle');
-  await page.getByRole('button', { name: 'Autoriser et fermer' }).click();
-  await page
-    .getByRole('button', { name: 'Autoriser et fermer' })
-    .waitFor({ state: 'detached' });
+  // react-cookie-consent defaults: id rcc-confirm-button, aria-label "Accept cookies"
+  // (visible text "Autoriser et fermer" is not the accessible name).
+  const acceptCookies = page.locator('#rcc-confirm-button');
+  await acceptCookies.click();
+  await acceptCookies.waitFor({ state: 'detached' });
 
   await page.getByRole('button', { name: 'Se connecter' }).click();
   await page.waitForURL(`${URL}/authentication/login`);

@@ -11,6 +11,10 @@ on:
         description: 'Force failure to test Discord, Framateam and email notifications'
         type: boolean
         default: false
+      notify_on_failure:
+        description: 'Send Discord, Framateam and email notifications if the check fails'
+        type: boolean
+        default: true
   schedule:
     - cron: '30 * * * *'
 
@@ -38,14 +42,14 @@ jobs:
           EMAIL: prod@bleumatin.fr
           PASSWORD: ${{ secrets.PRODUCTION_HEALTH_CHECK_PASSWORD }}
       - name: Failure notification
-        if: ${{ failure() }}
+        if: ${{ failure() && (github.event_name == 'schedule' || inputs.notify_on_failure) }}
         uses: Ilshidur/action-discord@master
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_MONITORING_WEBHOOK }}
         with:
           args: 'The Health Check has failed for SEEDS Production'
       - name: Framateam failure notification
-        if: ${{ failure() }}
+        if: ${{ failure() && (github.event_name == 'schedule' || inputs.notify_on_failure) }}
         uses: mattermost/action-mattermost-notify@master
         with:
           MATTERMOST_WEBHOOK_URL: ${{ secrets.FRAMATEAM_MONITORING_WEBHOOK }}
@@ -53,7 +57,7 @@ jobs:
             :warning: The Health Check has failed for SEEDS Production
             [View workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
       - name: Email failure notification
-        if: ${{ failure() }}
+        if: ${{ failure() && (github.event_name == 'schedule' || inputs.notify_on_failure) }}
         uses: dawidd6/action-send-mail@v17
         with:
           server_address: mail.infomaniak.ch
