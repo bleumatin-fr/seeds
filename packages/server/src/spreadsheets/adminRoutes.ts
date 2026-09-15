@@ -75,7 +75,11 @@ const getEditorConfig = (
       autosave: true,
       forcesave: true,
       compactHeader: true,
-      toolbarNoTabs: true,
+      // toolbarNoTabs is broken on ONLYOFFICE 9.4.0 (missing index_loader.html).
+      features: {
+        tabStyle: 'line',
+        tabBackground: 'toolbar',
+      },
       info: false,
       toolbarHideFileName: true,
       uiTheme: 'theme-light',
