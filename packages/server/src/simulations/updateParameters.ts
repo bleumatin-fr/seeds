@@ -22,8 +22,10 @@ const convertCellToString = (cell: CellObject): any => {
   if (cell.f) {
     return `=${cell.f}`
       .replace(/CONCAT\(/g, 'CONCATENATE(')
-      .replace(/FALSE/g, 'FALSE()')
-      .replace(/TRUE/g, 'TRUE()');
+      // HyperFormula needs TRUE()/FALSE() as functions, but Excel may already
+      // store them that way. A naive replace turns FALSE() into FALSE()().
+      .replace(/\bFALSE\b(?!\()/g, 'FALSE()')
+      .replace(/\bTRUE\b(?!\()/g, 'TRUE()');
   }
   return cell.v;
 };
