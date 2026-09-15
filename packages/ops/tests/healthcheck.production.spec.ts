@@ -4,21 +4,13 @@ const URL = process.env.URL as string;
 const EMAIL = process.env.EMAIL as string;
 const PASSWORD = process.env.PASSWORD as string;
 
-/**
- * Production (e0c5012 / v2.0.20) has no data-testid hooks.
- * Create-button labels come from dashboardText.createButton in ProjectsUtils.
- */
-const PROJECT_MODELS = [
-  { createLabel: 'bâtiment / site', modalTitle: 'Création bâtiment' },
-  { createLabel: 'fonctionnement', modalTitle: 'Création fonctionnement' },
-  { createLabel: 'projet', modalTitle: 'Création projet' },
-] as const;
+const PROJECT_MODELS = ['building', 'operation', 'project'] as const;
 
 /** Closes onboarding / newsletter modals that block the dashboard. */
 async function dismissBlockingModals(page: Page) {
-  const welcomeSkip = page.getByRole('link', {
-    name: 'Je connais déjà, passer',
-  });
+  const welcomeSkip = page
+    .getByTestId('onboarding-welcome-skip')
+    .or(page.getByRole('link', { name: 'Je connais déjà, passer' }));
 
   try {
     await welcomeSkip.waitFor({ state: 'visible', timeout: 10_000 });
@@ -28,9 +20,9 @@ async function dismissBlockingModals(page: Page) {
     // Onboarding already completed for this account/session.
   }
 
-  const optinDismiss = page.getByRole('button', {
-    name: "Pas pour l'instant",
-  });
+  const optinDismiss = page
+    .getByTestId('optin-dismiss')
+    .or(page.getByRole('button', { name: "Pas pour l'instant" }));
 
   if (await optinDismiss.isVisible()) {
     await optinDismiss.click();
@@ -58,33 +50,31 @@ test('it can reach SEEDS production and perform basic actions', async ({
   await page.waitForURL(`${URL}/authentication`);
 
   await page.waitForLoadState('networkidle');
-  // react-cookie-consent defaults: id rcc-confirm-button, aria-label "Accept cookies"
-  // (visible text "Autoriser et fermer" is not the accessible name).
-  const acceptCookies = page.locator('#rcc-confirm-button');
-  await acceptCookies.click();
-  await acceptCookies.waitFor({ state: 'detached' });
+  await page.locator('#cookie-consent-accept').click();
+  await page
+    .locator('#cookie-consent-accept')
+    .waitFor({ state: 'detached' });
 
-  await page.getByRole('button', { name: 'Se connecter' }).click();
+  await page.getByTestId('authentication-login-link').click();
   await page.waitForURL(`${URL}/authentication/login`);
 
-  await page.getByLabel('Adresse email').fill(EMAIL);
-  await page.getByLabel('Mot de passe', { exact: true }).fill(PASSWORD);
-  await page.getByRole('button', { name: "S'authentifier" }).click();
+  await page.getByTestId('login-email').fill(EMAIL);
+  await page.getByTestId('login-password').fill(PASSWORD);
+  await page.getByTestId('login-submit').click();
   await page.waitForURL(URL);
   await page.waitForLoadState('networkidle');
   await dismissBlockingModals(page);
+  await expect(page.getByTestId('dashboard-create-building')).toBeVisible();
 
-  await expect(page.getByText('bâtiment / site').first()).toBeVisible();
-
-  for (const { createLabel, modalTitle } of PROJECT_MODELS) {
-    await page.getByText(createLabel, { exact: true }).first().click();
+  for (const model of PROJECT_MODELS) {
+    await page.getByTestId(`dashboard-create-${model}`).click();
     await page.waitForLoadState('networkidle');
     await expect(
-      page.getByRole('heading', { name: modalTitle }),
+      page.getByTestId(`create-project-modal-${model}`),
     ).toBeVisible();
-    await page.getByRole('button', { name: 'Annuler' }).click();
+    await page.getByTestId('create-project-cancel').click();
     await expect(
-      page.getByRole('heading', { name: modalTitle }),
+      page.getByTestId(`create-project-modal-${model}`),
     ).toBeHidden();
   }
 });
