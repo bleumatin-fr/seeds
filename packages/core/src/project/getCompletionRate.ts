@@ -1,4 +1,4 @@
-import { Parameter, Sector } from './types';
+import { Parameter, Sector, Value } from './types';
 
 const flattenParameters = (sectors: Sector[]): Parameter[] =>
   sectors.reduce((allParameters, sector) => {
@@ -7,18 +7,35 @@ const flattenParameters = (sectors: Sector[]): Parameter[] =>
     return [...allParameters, ...sector.parameters, ...subParameters];
   }, [] as Parameter[]);
 
-const valueNotEmpty = (parameter: Parameter) => {
-  if (Array.isArray(parameter.value) && parameter.value.length > 0) {
-    return parameter.value[0] !== '';
+const isEmpty = (value: Value) => {
+  if (Array.isArray(value) && value.length > 0) {
+    return value[0] === '';
   }
-  return parameter.value !== '';
+  return value === '';
 };
-const valueEmpty = (parameter: Parameter) => {
-  if (Array.isArray(parameter.value) && parameter.value.length > 0) {
-    return parameter.value[0] === '';
+
+const isNotEmpty = (value: Value) => {
+  if (Array.isArray(value) && value.length > 0) {
+    return value[0] !== '';
   }
-  return parameter.value === '';
+  return value !== '';
 };
+
+const initialValueFills = (value: Value) => {
+  if (value === undefined || value === null) {
+    return false;
+  }
+  if (Array.isArray(value) && value.length === 0) {
+    return false;
+  }
+  return isNotEmpty(value);
+};
+
+const valueNotEmpty = (parameter: Parameter) =>
+  isNotEmpty(parameter.value) || initialValueFills(parameter.initialValue);
+
+const valueEmpty = (parameter: Parameter) =>
+  isEmpty(parameter.value) && !initialValueFills(parameter.initialValue);
 
 const valueNotZero = (parameter: Parameter) => {
   return parameter.value !== 0;
@@ -42,6 +59,7 @@ export const getCompletionRate = (
     .filter(fillableParameters)
     .filter(displayedParameters)
     .filter(valueNotZero);
+
   const total = parameters;
   const completed = parameters.filter(valueNotEmpty);
   const uncompleted = parameters.filter(valueEmpty);
