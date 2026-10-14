@@ -389,10 +389,8 @@ export const getStatisticsSpreadsheet = async (
     }
   >());
 
-  const statSpreadSheetId = await spreadsheet.create();
-  if (!statSpreadSheetId) {
-    throw new Error('Unable to create a new spreadsheet');
-  }
+  const statSpreadSheetId = spreadsheet.getNewId();
+  const workbook = xlsx.utils.book_new();
 
   const usedSheetNames = new Set<string>();
 
@@ -408,8 +406,6 @@ export const getStatisticsSpreadsheet = async (
       toValidSheetBaseName(rawSheetName),
       usedSheetNames,
     );
-
-    await spreadsheet.createSheets(statSpreadSheetId, [sheetName]);
 
     let data: any[][] = [];
 
@@ -463,7 +459,7 @@ export const getStatisticsSpreadsheet = async (
 
     data = [
       ...data,
-      ...projectsOfModel.map((project, projectIndex) => {
+      ...projectsOfModel.map((project) => {
         const projectIdentifyingInformation =
           getProjectIdentifyingInformation(project);
         const projectUserInformation = getProjectUserInformation(project);
@@ -488,21 +484,25 @@ export const getStatisticsSpreadsheet = async (
       }
     }
 
-    if (transpose) {
-      const transposedData = transposeArray(data);
-      const range = `${sheetName}!A1:${xlsx.utils.encode_col(
-        transposedData[0].length - 1,
-      )}${transposedData.length}`;
-      await spreadsheet.write(statSpreadSheetId, range, transposedData);
-    } else {
-      const range = `${sheetName}!A1:${xlsx.utils.encode_col(
-        data[0].length - 1,
-      )}${data.length}`;
-
-      await spreadsheet.write(statSpreadSheetId, range, data);
-    }
+    const sheetSource = transpose ? transposeArray(data) : data;
+    const sheet = xlsx.utils.aoa_to_sheet(
+      sheetSource.map((row) =>
+        row.map((value) => {
+          if (value === null || value === undefined || value === '') {
+            return '';
+          }
+          if (Array.isArray(value)) {
+            return value.join(',');
+          }
+          return value;
+        }),
+      ),
+    );
+    xlsx.utils.book_append_sheet(workbook, sheet, sheetName);
   }
-  await spreadsheet.removeSheetsByIndex(statSpreadSheetId, [0]);
+  xlsx.writeFile(workbook, spreadsheet.getFilePath(statSpreadSheetId), {
+    compression: true,
+  });
 
   return statSpreadSheetId;
 };
