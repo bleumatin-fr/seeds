@@ -324,11 +324,28 @@ const ParameterFactory = ({
         possibleValues = parameter.possibleValues.map((v: string) => v.trim());
       }
 
+      const normalizeOption = (value: string) =>
+        value
+          .trim()
+          .replace(/[\u2018\u2019\u201A\u201B\u2032\u2035]/g, "'")
+          .replace(/\u00A0/g, ' ')
+          .replace(/\s+/g, ' ');
+      const selected = defaultValue.map(normalizeOption).filter(Boolean);
+      const matchedOptions = possibleValues.filter((option) =>
+        selected.includes(normalizeOption(option)),
+      );
+      const displayedValue =
+        matchedOptions.length > 0
+          ? matchedOptions
+          : possibleValues.length === 1 && selected.length > 0
+            ? [possibleValues[0]]
+            : defaultValue;
+
       return (
         <CheckboxSelect
           possibleValues={possibleValues}
           onChange={handleCheckboxGroupChanged}
-          defaultValue={defaultValue}
+          defaultValue={displayedValue}
         />
       );
     }

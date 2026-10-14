@@ -148,9 +148,36 @@ const getParameters = (parameters: Parameter[], parameterIds: string[]) => {
       } else if (typeof parameter.value === 'number') {
         parametersData[index] = parameter.value;
       } else if (Array.isArray(parameter.value)) {
-        parametersData[index] = parameter.value
-          .map((value) => value.toString().replaceAll(/;/g, ','))
-          .join(';');
+        if (parameter.type === 'checkbox') {
+          const normalizeOption = (value: string) =>
+            value
+              .trim()
+              .replace(/[\u2018\u2019\u201A\u201B\u2032\u2035]/g, "'")
+              .replace(/\u00A0/g, ' ')
+              .replace(/\s+/g, ' ');
+          const selected = parameter.value
+            .map((value) => normalizeOption(value.toString()))
+            .filter(Boolean);
+          const optionLabels = (parameter.possibleValues || [])
+            .map((value) => value.toString())
+            .filter((value) => normalizeOption(value));
+          const options = optionLabels.map((value) => normalizeOption(value));
+          if (options.length <= 1) {
+            const checked =
+              selected.some((value) => options.includes(value)) ||
+              selected.length > 0;
+            parametersData[index] = checked ? 'oui' : 'non';
+          } else {
+            parametersData[index] = optionLabels
+              .filter((label) => selected.includes(normalizeOption(label)))
+              .map((label) => label.replaceAll(/;/g, ','))
+              .join(';');
+          }
+        } else {
+          parametersData[index] = parameter.value
+            .map((value) => value.toString().replaceAll(/;/g, ','))
+            .join(';');
+        }
       } else {
         parametersData[index] = parameter.value
           ?.toString()
